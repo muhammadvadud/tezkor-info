@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        PROD_ENV     = "/opt/env/.env.django"
-        IMAGE_NAME   = "django"
+        PROD_ENV     = "/opt/env/.env.tezkor-info"
+        IMAGE_NAME   = "tezkor-info"
         TEST_TAG     = "test"
         PROD_TAG     = "latest"
-        CONTAINER_DB = "django_db_test"
-        CONTAINER_WEB = "django_web_test"
-        CONTAINER_REDIS = "django_redis_test"
-        STACK_NAME = "django"
+        CONTAINER_DB = "tezkor-info_db_test"
+        CONTAINER_WEB = "tezkor-info_web_test"
+        CONTAINER_REDIS = "tezkor-info_redis_test"
+        STACK_NAME = "tezkor-info"
     }
 
     stages {
@@ -20,7 +20,7 @@ pipeline {
                         script: "git log -1 --pretty=%B",
                         returnStdout: true
                     ).trim()
-                    
+
                     if (commitMsg.contains("[ci skip]")) {
                         echo "Commit message contains [ci skip], aborting pipeline 🚫"
                         currentBuild.result = 'ABORTED'

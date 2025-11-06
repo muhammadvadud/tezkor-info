@@ -1,5 +1,5 @@
 networks:
-  django:
+  network:
     driver: bridge
 
 volumes:
@@ -9,7 +9,7 @@ volumes:
 services:
   web:
     networks:
-      - django
+      - network
     build:
       context: .
       dockerfile: ./docker/Dockerfile.web
@@ -25,7 +25,7 @@ services:
       - redis
   db:
     networks:
-      - django
+      - network
     image: postgres:16
     restart: always
     container_name: test_db
@@ -38,7 +38,7 @@ services:
   redis:
     container_name: test_redis
     networks:
-      - django
+      - network
     restart: always
 
     image: redis

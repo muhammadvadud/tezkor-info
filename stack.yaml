@@ -10,7 +10,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
-      - django
+      - tezkor-info
     deploy:
       replicas: 1
       placement:
@@ -22,12 +22,12 @@ services:
       update_config:
         parallelism: 1
         order: start-first
-        failure_action: rollback 
+        failure_action: rollback
         monitor: 30s
         delay: 30s
         max_failure_ratio: 0.2
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,10 +38,10 @@ services:
         max-file: "3"
 
   redis:
-    image: redis:alpine 
-    command: ["redis-server", "--appendonly", "yes"]
+    image: redis:alpine
+    command: [ "redis-server", "--appendonly", "yes" ]
     networks:
-      - django
+      - tezkor-info
     deploy:
       replicas: 1
       placement:
@@ -50,14 +50,14 @@ services:
       restart_policy:
         condition: any
       update_config:
-        failure_action: rollback 
+        failure_action: rollback
         monitor: 30s
         delay: 30s
         max_failure_ratio: 0.2
         parallelism: 1
         order: start-first
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 15s
       timeout: 10s
       retries: 5
@@ -68,13 +68,13 @@ services:
         max-file: "3"
 
   web:
-    image: jscorptech/django:latest 
+    image: jscorptech/tezkor-info:latest
     env_file:
       - .env
     environment:
       - PYTHONPYCACHEPREFIX=/var/cache/pycache
     networks:
-      - django
+      - tezkor-info
     volumes:
       - logs:/code/resources/logs/
       - media:/code/resources/media/
@@ -86,16 +86,16 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any 
+        condition: any
       update_config:
-        failure_action: rollback 
+        failure_action: rollback
         monitor: 30s
         delay: 30s
         max_failure_ratio: 0.2
         parallelism: 1
         order: start-first
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/health/ || exit 1"]
+      test: [ "CMD-SHELL", "curl -f http://localhost:8000/health/ || exit 1" ]
       interval: 15s
       timeout: 15s
       retries: 5
@@ -108,7 +108,7 @@ services:
   nginx:
     image: jscorptech/nginx:v1
     ports:
-      - mode: ingress 
+      - mode: ingress
         target: 80
         published: 8099
         protocol: tcp
@@ -120,7 +120,7 @@ services:
       - media:/usr/share/nginx/html/resources/media/:ro
       - static:/usr/share/nginx/html/resources/staticfiles/:ro
     networks:
-      - django
+      - tezkor-info
     deploy:
       replicas: 1
       restart_policy:
@@ -129,7 +129,7 @@ services:
         constraints:
           - node.role == manager
       update_config:
-        failure_action: rollback 
+        failure_action: rollback
         monitor: 10s
         delay: 10s
         max_failure_ratio: 0.2
@@ -140,7 +140,7 @@ services:
       - /var/run
       - /var/tmp
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost/health/ || exit 1"]
+      test: [ "CMD-SHELL", "curl -f http://localhost/health/ || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -151,8 +151,8 @@ services:
         max-file: "3"
 
 networks:
-  django:
-    driver: overlay 
+  tezkor-info:
+    driver: overlay
 
 volumes:
   media:

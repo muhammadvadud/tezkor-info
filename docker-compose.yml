@@ -1,5 +1,5 @@
 networks:
-  django:
+  network:
     driver: bridge
 
 volumes:
@@ -10,7 +10,7 @@ volumes:
 services:
   nginx:
     networks:
-      - django
+      - network
     ports:
       - ${PORT:-8001}:80
     volumes:
@@ -23,7 +23,7 @@ services:
       - web
   web:
     networks:
-      - django
+      - network
     build:
       context: .
       dockerfile: ./docker/Dockerfile.web
@@ -39,7 +39,7 @@ services:
       - redis
   db:
     networks:
-      - django
+      - network
     image: postgres:16
     restart: always
     environment:
@@ -50,7 +50,7 @@ services:
       - pg_data:/var/lib/postgresql/data
   redis:
     networks:
-      - django
+      - network
     restart: always
 
     image: redis
