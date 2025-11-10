@@ -1,9 +1,12 @@
+from calendar import month
+
 from django_core.models import AbstractBaseModel
 from model_bakery import baker
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.apps.main.models import ActivateTypesModel
+from core.apps.main.choices import PaymentsTypeChoice
 
 
 class AdModel(AbstractBaseModel):
@@ -14,6 +17,9 @@ class AdModel(AbstractBaseModel):
     types = models.ManyToManyField(ActivateTypesModel, verbose_name=_("types"))
     is_referral_payments = models.BooleanField(default=False, verbose_name=_("is referral payments"))
     total_price = models.BigIntegerField(verbose_name=_("total price"), default=0)
+    letters = models.CharField(max_length=255, verbose_name=_("letters"), blank=True, default="")
+    payments_type = models.CharField(max_length=255, choices=PaymentsTypeChoice, default=PaymentsTypeChoice.OTHER,
+                                     verbose_name=_("payments type"))
 
     def __str__(self):
         return str(self.pk)
