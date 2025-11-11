@@ -156,3 +156,4 @@ cython_debug/
 
 # Visual Studio Code
 .vscode
+django

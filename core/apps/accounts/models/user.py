@@ -15,7 +15,6 @@ class User(auth_models.AbstractUser):
     district = models.ForeignKey(District, on_delete=models.PROTECT, blank=True, null=True)
     company_name = models.CharField(max_length=255, null=True, blank=True)
     stir = models.CharField(max_length=255, null=True, blank=True)
-    business_profile = models.CharField(max_length=255, null=True, blank=True)
     director_full_name = models.CharField(max_length=255, null=True, blank=True)
     role = models.CharField(
         max_length=255,

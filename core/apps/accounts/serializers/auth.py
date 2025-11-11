@@ -26,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["first_name", "last_name", "company_name", "stir", "business_profile", "director_full_name",
+        fields = ["first_name", "last_name", "company_name", "stir", "director_full_name",
                   "person_type", "activate_types", "country", "region", "district", "phone"]
         extra_kwargs = {
             "first_name": {

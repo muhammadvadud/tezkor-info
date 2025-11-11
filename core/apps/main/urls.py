@@ -1,10 +1,17 @@
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from django.urls import include, path
-
-from .views import ActivateTypesView, AdView, CompanyLetterSummaryView, PricebracketView, PriceCalculationView
+from .views import (
+    ActivateTypesView,
+    AdView,
+    CategoryView,
+    CompanyLetterSummaryView,
+    PricebracketView,
+    PriceCalculationView,
+)
 
 router = DefaultRouter()
+router.register("category", CategoryView, basename="category")
 router.register("price-bracket", PricebracketView, basename="price-bracket")
 router.register("price-calculation", PriceCalculationView, basename="price-calculation")
 router.register("ad", AdView, basename="ad")

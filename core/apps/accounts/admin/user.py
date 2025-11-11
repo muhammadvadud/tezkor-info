@@ -17,7 +17,6 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
         "district",
         "company_name",
         "stir",
-        "business_profile",
         "director_full_name",
         "person_type",
     )
@@ -25,7 +24,7 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
     fieldsets = ((None, {"fields": ("phone",)}),) + (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {
-            "fields": ("first_name", "last_name", "email", "district", "company_name", "stir", "business_profile",
+            "fields": ("first_name", "last_name", "email", "district", "company_name", "stir",
                        "director_full_name", "person_type", "activate_types")}),
 
         (

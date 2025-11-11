@@ -45,7 +45,6 @@ class UserService(sms.SmsService):
                     "district": district_obj,
                     "company_name": data.get("company_name"),
                     "stir": data.get("stir"),
-                    "business_profile": data.get("business_profile"),
                     "director_full_name": data.get("director_full_name"),
                 })
 
