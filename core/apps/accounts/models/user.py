@@ -27,7 +27,7 @@ class User(auth_models.AbstractUser):
         default=PersonTypeChoice.INDIVIDUAL,
 
     )
-    category = models.ManyToManyField(CategoryModel, blank=True)
+    activate_types = models.ManyToManyField(CategoryModel, blank=True)
     USERNAME_FIELD = "phone"
     objects = UserManager()
 
