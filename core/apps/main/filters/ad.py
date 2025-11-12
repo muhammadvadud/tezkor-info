@@ -9,5 +9,4 @@ class AdFilter(filters.FilterSet):
     class Meta:
         model = AdModel
         fields = [
-            "name",
         ]

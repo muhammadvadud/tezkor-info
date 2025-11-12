@@ -7,8 +7,11 @@ class BaseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryModel
         fields = [
-            "id",
-            "name",
+            'id',
+            'name',
+            'code',
+            'level',
+            'is_leaf',
         ]
 
 
