@@ -5,7 +5,6 @@ from model_bakery import baker
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from core.apps.main.models import ActivateTypesModel
 from core.apps.main.choices import PaymentsTypeChoice
 
 
@@ -14,12 +13,13 @@ class AdModel(AbstractBaseModel):
     title = models.CharField(verbose_name=_("name"), max_length=255)
     description = models.TextField(verbose_name=_("description"))
     total_view_count = models.PositiveIntegerField(verbose_name=_("view count"), default=0)
-    types = models.ManyToManyField(ActivateTypesModel, verbose_name=_("types"))
+    types = models.ManyToManyField("main.CategoryModel", verbose_name=_("types"))
     is_referral_payments = models.BooleanField(default=False, verbose_name=_("is referral payments"))
     total_price = models.BigIntegerField(verbose_name=_("total price"), default=0)
     letters = models.CharField(max_length=255, verbose_name=_("letters"), blank=True, default="")
     payments_type = models.CharField(max_length=255, choices=PaymentsTypeChoice, default=PaymentsTypeChoice.OTHER,
                                      verbose_name=_("payments type"))
+    company_selections = models.ManyToManyField("main.CompanySelectionModel", verbose_name=_("company selections"))
 
     def __str__(self):
         return str(self.pk)

@@ -3,7 +3,7 @@ from django.db import models
 from .region import District
 from ..choices import RoleChoice, PersonTypeChoice
 from ..managers import UserManager
-from core.apps.main.models import ActivateTypesModel
+from core.apps.main.models import CategoryModel
 
 
 class User(auth_models.AbstractUser):
@@ -27,7 +27,7 @@ class User(auth_models.AbstractUser):
         default=PersonTypeChoice.INDIVIDUAL,
 
     )
-    activate_types = models.ManyToManyField(ActivateTypesModel, blank=True)
+    category = models.ManyToManyField(CategoryModel, blank=True)
     USERNAME_FIELD = "phone"
     objects = UserManager()
 
