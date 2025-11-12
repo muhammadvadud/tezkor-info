@@ -10,6 +10,7 @@ from core.apps.main.serializers.category import (
     CreateCategorySerializer,
     ListCategorySerializer,
     RetrieveCategorySerializer,
+    ListCategoryTreeSerializer,
 )
 
 
@@ -27,3 +28,9 @@ class CategoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
         "retrieve": RetrieveCategorySerializer,
         "create": CreateCategorySerializer,
     }
+
+    def get_serializer_class(self):
+        is_tree = self.request.query_params.get('is_tree', '').lower() == 'true'
+        if is_tree:
+            return ListCategoryTreeSerializer
+        return super().get_serializer_class()

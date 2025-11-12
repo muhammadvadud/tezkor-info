@@ -3,6 +3,28 @@ from rest_framework import serializers
 from core.apps.main.models import CategoryModel
 
 
+class ListCategoryTreeSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CategoryModel
+        fields = [
+            'id',
+            'name',
+            'code',
+            'level',
+            'is_leaf',
+            'children',
+
+        ]
+
+    def get_children(self, obj):
+        qs = obj.children.all()
+        if obj.is_leaf:
+            return []
+        return ListCategoryTreeSerializer(qs, many=True, context=self.context).data
+
+
 class BaseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryModel
