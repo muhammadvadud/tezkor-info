@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel
+from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel, CategoryModel
 from core.apps.main.serializers.activate_types import ListActivateTypesSerializer
 
 
@@ -18,7 +18,6 @@ class CompanySelectionModelSerializer(serializers.ModelSerializer):
             "id",
             "continent",
             "country",
-            "region",
             "region",
             "district",
             "letters",
@@ -64,24 +63,42 @@ class RetrieveAdSerializer(BaseAdSerializer):
 class CreateAdSerializer(BaseAdSerializer):
     files = serializers.ListSerializer(child=serializers.FileField(), write_only=True, required=True)
     types = serializers.ListSerializer(child=serializers.IntegerField(), write_only=True, required=True)
-    countries = CompanySelectionModelSerializer(many=True, write_only=True)
+    company_selections = CompanySelectionModelSerializer(many=True, write_only=True)
 
     class Meta(BaseAdSerializer.Meta):
         fields = [
+            "id",
             "title",
             "description",
             "files",
             "types",
             "countries",
+            "total_price",
+            "is_referral_payments",
+            "payments_type",
+            "company_selections",
         ]
+        extra_kwargs = {
+            "is_referral_payments": {"required": False},
+        }
 
     def create(self, validated_data):
         user = self.context.get("request").user
         files = validated_data.pop("files", [])
-        if files:
-            raise serializers.ValidationError("Raise not found")
-        validated_data["creator"] = user
+        types = validated_data.pop("types", [])
+        company_selections = validated_data.pop("company_selections", [])
+        validated_data["created_by"] = user
         ad = AdModel.objects.create(**validated_data)
-        for file in files:
-            AdFilesModel.objects.create(ad=ad, files=files)
+        if files:
+            for file in files:
+                AdFilesModel.objects.create(ad=ad, file=file)
+        if types:
+            ad.types.set(types)
+        if company_selections:
+            ids_selections = []
+            for company_selection in company_selections:
+                selections = CompanySelectionModel.objects.create(**company_selection)
+                ids_selections.append(selections.id)
+            ad.company_selections.set(ids_selections)
+            ad.save()
         return ad

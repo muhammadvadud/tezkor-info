@@ -1,8 +1,9 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import ReferralView
+from .views import ReferralHistoryView, ReferralView
 
 router = DefaultRouter()
+router.register("ReferralHistory", ReferralHistoryView, basename="ReferralHistory")
 router.register("referral", ReferralView, basename="referral")
 urlpatterns = [path("", include(router.urls))]
