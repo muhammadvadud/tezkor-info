@@ -19,12 +19,17 @@ PAGES = [
             {
                 "title": _("Users"),
                 "icon": "group",
-                "link": reverse_lazy("admin:http_user_changelist"),
+                "link": reverse_lazy("admin:accounts_user_changelist"),
             },
             {
                 "title": _("Group"),
                 "icon": "group",
-                "link": reverse_lazy("admin:auth_group_changelist"),
+                "link": reverse_lazy("admin:accounts_user_changelist"),
+            },
+            {
+                "title": _("Main"),
+                "icon": "group",
+                "link": reverse_lazy("admin:main_pricebracketmodel_changelist"),
             },
         ],
     },

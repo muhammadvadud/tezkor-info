@@ -1,12 +1,7 @@
 from unfold.admin import ModelAdmin
 
-from core.apps.main.models import AdModel, AdFilesModel, AdCountries
+from core.apps.main.models import AdModel, AdFilesModel
 from django.contrib import admin
-
-
-class AdCountriesInline(admin.TabularInline):
-    model = AdCountries
-    extra = 1
 
 
 class AdFilesAdmin(admin.TabularInline):
@@ -20,4 +15,4 @@ class AdAdmin(ModelAdmin):
         "id",
         "__str__",
     )
-    inlines = [AdFilesAdmin, AdCountriesInline]
+    inlines = [AdFilesAdmin]

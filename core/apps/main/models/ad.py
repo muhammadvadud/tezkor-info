@@ -51,19 +51,3 @@ class AdFilesModel(AbstractBaseModel):
         verbose_name_plural = _("AdFilesModels")
 
 
-class AdCountries(AbstractBaseModel):
-    ad = models.ForeignKey(AdModel, verbose_name=_("ad"), on_delete=models.CASCADE, related_name="countries")
-    continent = models.CharField(max_length=255, verbose_name=_("continent"))
-    country = models.CharField(max_length=255, verbose_name=_("country"))
-    region = models.CharField(max_length=255, verbose_name=_("region"))
-    city = models.CharField(max_length=255, verbose_name=_("city"))
-    total_view = models.PositiveIntegerField(verbose_name=_("view count"), default=0)
-    price = models.BigIntegerField(verbose_name=_("price"))
-
-    def __str__(self):
-        return str(self.pk)
-
-    class Meta:
-        db_table = "ad_countries"
-        verbose_name = _("AdCountries")
-        verbose_name_plural = _("AdCountries")

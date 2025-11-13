@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from core.apps.main.models import AdModel, AdFilesModel, AdCountries
+from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel
 from core.apps.main.serializers.activate_types import ListActivateTypesSerializer
 
 
@@ -11,17 +11,20 @@ class OwnerInfoSerializer(serializers.ModelSerializer):
         fields = ["first_name", "last_name", "phone"]
 
 
-class AdCountriesSerializer(serializers.ModelSerializer):
+class CompanySelectionModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AdCountries
+        model = CompanySelectionModel
         fields = [
             "id",
             "continent",
             "country",
             "region",
-            "city",
-            "total_view",
-            "price",
+            "region",
+            "district",
+            "letters",
+            "total_companies",
+            "ad_price",
+            "total_price",
         ]
 
 
@@ -36,7 +39,7 @@ class AdFilesSerializer(serializers.ModelSerializer):
 class BaseAdSerializer(serializers.ModelSerializer):
     creator = OwnerInfoSerializer(read_only=True)
     files = AdFilesSerializer(read_only=True, many=True)
-    countries = AdCountriesSerializer(read_only=True, many=True)
+    countries = CompanySelectionModelSerializer(read_only=True, many=True)
 
     class Meta:
         model = AdModel
@@ -61,7 +64,7 @@ class RetrieveAdSerializer(BaseAdSerializer):
 class CreateAdSerializer(BaseAdSerializer):
     files = serializers.ListSerializer(child=serializers.FileField(), write_only=True, required=True)
     types = serializers.ListSerializer(child=serializers.IntegerField(), write_only=True, required=True)
-    countries = AdCountriesSerializer(many=True, write_only=True)
+    countries = CompanySelectionModelSerializer(many=True, write_only=True)
 
     class Meta(BaseAdSerializer.Meta):
         fields = [
