@@ -1,7 +1,7 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 from core.apps.referral.models import ReferralModel
 from core.apps.referral.serializers.referral import (
@@ -12,10 +12,11 @@ from core.apps.referral.serializers.referral import (
 
 
 @extend_schema(tags=["referral"])
-class ReferralView(BaseViewSetMixin, ReadOnlyModelViewSet):
+class ReferralView(BaseViewSetMixin, ModelViewSet):
     queryset = ReferralModel.objects.all()
     serializer_class = ListReferralSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "post", "head", "options"]
 
     action_permission_classes = {}
     action_serializer_class = {
@@ -23,3 +24,6 @@ class ReferralView(BaseViewSetMixin, ReadOnlyModelViewSet):
         "retrieve": RetrieveReferralSerializer,
         "create": CreateReferralSerializer,
     }
+
+    def get_queryset(self):
+        return ReferralModel.objects.filter(user=self.request.user)
