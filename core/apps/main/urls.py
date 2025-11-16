@@ -8,9 +8,11 @@ from .views import (
     CompanyLetterSummaryView,
     PricebracketView,
     PriceCalculationView,
+    ProductServiceView,
 )
 
 router = DefaultRouter()
+router.register("ProductService", ProductServiceView, basename="ProductService")
 router.register("category", CategoryView, basename="category")
 router.register("price-bracket", PricebracketView, basename="price-bracket")
 router.register("price-calculation", PriceCalculationView, basename="price-calculation")
