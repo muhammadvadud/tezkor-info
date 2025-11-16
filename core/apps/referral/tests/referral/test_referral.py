@@ -13,7 +13,7 @@ def instance(db):
 @pytest.fixture
 def api_client(instance):
     client = APIClient()
-    ##client.force_authenticate(user=instance.user)
+    client.force_authenticate(user=instance.user)
     return client, instance
 
 
@@ -56,7 +56,6 @@ def test_retrieve_not_found(data):
     data_resp = response.json()
     assert response.status_code == 404
     assert data_resp["status"] is False
-
 
 # @pytest.mark.django_db
 # def test_create(data):
