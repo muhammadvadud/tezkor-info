@@ -17,6 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     country = serializers.CharField(max_length=255, required=False, allow_blank=True)
     region = serializers.CharField(max_length=255, required=False, allow_blank=True)
     district = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    referral = serializers.CharField(max_length=255, required=False, allow_blank=True)
 
     def validate_phone(self, value):
         user = get_user_model().objects.filter(phone=value, validated_at__isnull=False)
@@ -27,12 +28,13 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["first_name", "last_name", "company_name", "stir", "director_full_name",
-                  "person_type", "activate_types", "country", "region", "district", "phone"]
+                  "person_type", "activate_types", "country", "region", "district", "phone", "referral"]
         extra_kwargs = {
             "first_name": {
                 "required": True,
             },
             "last_name": {"required": True},
+            "referral": {"required": False},
         }
 
 

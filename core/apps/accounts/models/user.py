@@ -16,6 +16,8 @@ class User(auth_models.AbstractUser):
     company_name = models.CharField(max_length=255, null=True, blank=True)
     stir = models.CharField(max_length=255, null=True, blank=True)
     director_full_name = models.CharField(max_length=255, null=True, blank=True)
+    referral_share = models.IntegerField(default=0)
+    referral = models.CharField(max_length=255, null=True, blank=True)
     role = models.CharField(
         max_length=255,
         choices=RoleChoice,

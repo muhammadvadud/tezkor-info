@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django_core.models import AbstractBaseModel
 from model_bakery import baker
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 
 class ReferralModel(AbstractBaseModel):
@@ -26,7 +27,9 @@ class ReferralModel(AbstractBaseModel):
 
 
 class ReferralReward(AbstractBaseModel):
-    amount = models.PositiveBigIntegerField(verbose_name=_("amount"), default=0)
+    min_person = models.IntegerField(verbose_name=_("min_person"), default=0)
+    max_person = models.IntegerField(verbose_name=_("max_person"))
+    share = models.IntegerField(verbose_name=_("share"), default=0)
 
     def __str__(self):
         return str(self.pk)
@@ -35,3 +38,21 @@ class ReferralReward(AbstractBaseModel):
         db_table = "referral_reward"
         verbose_name = _("ReferralReward")
         verbose_name_plural = _("ReferralRewards")
+
+    def clean(self):
+        if self.min_person > self.max_person:
+            raise ValidationError(_("min_people must be <= max_people"))
+
+        overlaps = ReferralReward.objects.filter(
+            active=True
+        ).exclude(pk=self.pk).filter(
+            min_people__lte=self.max_person,
+            max_people__gte=self.min_person
+        )
+        if overlaps.exists():
+            raise ValidationError(
+                _("This bracket overlaps with existing active brackets: %s") % ", ".join([str(o.pk) for o in overlaps]))
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

@@ -25,7 +25,7 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {
             "fields": ("first_name", "last_name", "email", "district", "company_name", "stir",
-                       "director_full_name", "person_type", "activate_types")}),
+                       "director_full_name", "person_type", "activate_types", "referral_share", "referral")}),
 
         (
             _("Permissions"),

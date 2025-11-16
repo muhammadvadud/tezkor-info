@@ -8,6 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework_simplejwt import tokens
 from core.apps.accounts.models.region import District, Region, Country
 from django.db import transaction
+from core.apps.referral.tasks import user_add_for_referral
 
 
 class UserService(sms.SmsService):
@@ -26,6 +27,7 @@ class UserService(sms.SmsService):
             country = data.get("country")
             region = data.get("region")
             district = data.get("district")
+            referral = data.get("referral")
 
             country_obj = region_obj = district_obj = None
 
@@ -38,6 +40,7 @@ class UserService(sms.SmsService):
                 "first_name": data.get("first_name"),
                 "last_name": data.get("last_name"),
                 "person_type": person_type,
+                "referral": referral,
             }
 
             if person_type == "legal_entity":
@@ -74,6 +77,7 @@ class UserService(sms.SmsService):
         """
         if user.validated_at is None:
             user.validated_at = datetime.now()
+        user_add_for_referral(user)
         user.save()
         token = self.get_token(user)
         return token
