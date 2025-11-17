@@ -23,7 +23,7 @@ class ProductServicePermission(permissions.BasePermission):
         if not request.user.is_authenticated:
             return False
 
-        if request.method in ["PATCH", "PUT"]:
+        if request.method in ["PATCH", "PUT", "DELETE"]:
             return (
                     request.user.person_type == PersonTypeChoice.LEGAL_ENTITY
                     and obj.company == request.user

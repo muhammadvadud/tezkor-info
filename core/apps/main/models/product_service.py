@@ -10,7 +10,7 @@ class ProductServiceModel(AbstractBaseModel):
     company = models.ForeignKey(
         "accounts.User",
         on_delete=models.CASCADE,
-        related_name="company",
+        related_name="product_service_company",
         verbose_name=_("company"),
     )
     category = models.ForeignKey("main.CategoryModel", on_delete=models.CASCADE, verbose_name=_("category"))

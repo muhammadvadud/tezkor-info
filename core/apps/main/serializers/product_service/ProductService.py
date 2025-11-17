@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from core.apps.main.models import ProductServiceModel, ProductServiceFilesModel
 from django.contrib.auth import get_user_model
+from core.apps.accounts.models.region import Country
+from django.db.models import Count
 
 
 class CompanyNameSerializer(serializers.ModelSerializer):
@@ -25,6 +27,7 @@ class ProductServiceFilesSerializer(serializers.ModelSerializer):
 class BaseProductServiceSerializer(serializers.ModelSerializer):
     files = ProductServiceFilesSerializer(many=True, read_only=True)
     company = serializers.CharField(source="company.company_name", read_only=True)
+    category = serializers.CharField(source="category.name", read_only=True)
 
     class Meta:
         model = ProductServiceModel
@@ -34,6 +37,7 @@ class BaseProductServiceSerializer(serializers.ModelSerializer):
             "description",
             "company",
             "files",
+            "category",
         ]
 
 
@@ -91,3 +95,43 @@ class CreateProductServiceSerializer(BaseProductServiceSerializer):
                 )
 
         return instance
+
+
+class GetLegalEntitySerializer(serializers.ModelSerializer):
+    product_service_company = BaseProductServiceSerializer(many=True, read_only=True)
+    country_name = serializers.CharField(source="district.region.country.name", read_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            "id",
+            "company_name",
+            "country_name",
+            "product_service_company"
+        ]
+
+
+class GetCountrySerializer(serializers.ModelSerializer):
+    companies = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Country
+        fields = [
+            "id",
+            "name",
+            "companies",
+        ]
+
+    def get_companies(self, obj):
+        companies = (
+            get_user_model().objects
+            .filter(
+                person_type="legal_entity",
+                validated_at__isnull=False,
+                district__region__country=obj
+            )
+            .annotate(service_count=Count("product_service_company"))
+            .values("id", "company_name", "service_count")
+            .distinct()
+        )
+        return companies

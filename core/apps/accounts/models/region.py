@@ -16,7 +16,7 @@ class Country(AbstractBaseModel):
 
 
 class Region(AbstractBaseModel):
-    country = models.ForeignKey(Country, verbose_name=_("Country"), on_delete=models.PROTECT, related_name="country")
+    country = models.ForeignKey(Country, verbose_name=_("Country"), on_delete=models.PROTECT, related_name="region")
     name = models.CharField(max_length=255, verbose_name=("Region Name"))
 
     def __str__(self):
