@@ -7,6 +7,12 @@ from model_bakery import baker
 class ProductServiceModel(AbstractBaseModel):
     title = models.CharField(verbose_name=_("title"), max_length=255)
     description = models.TextField(verbose_name=_("description"))
+    company = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        related_name="company",
+        verbose_name=_("company"),
+    )
     category = models.ForeignKey("main.CategoryModel", on_delete=models.CASCADE, verbose_name=_("category"))
 
     def __str__(self):

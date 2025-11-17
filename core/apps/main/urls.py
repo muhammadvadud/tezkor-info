@@ -12,7 +12,7 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register("ProductService", ProductServiceView, basename="ProductService")
+router.register("product-service", ProductServiceView, basename="ProductService")
 router.register("category", CategoryView, basename="category")
 router.register("price-bracket", PricebracketView, basename="price-bracket")
 router.register("price-calculation", PriceCalculationView, basename="price-calculation")
