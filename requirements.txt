@@ -43,6 +43,7 @@ django-storages
 boto3
 
 
+payme-pkg==3.0.28
 # !NOTE: on-websocket
 # websockets
 # channels-redis

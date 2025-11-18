@@ -23,6 +23,7 @@ urlpatterns = [
     path("api/", include("core.apps.bot.urls")),
     path("api/", include("core.apps.main.urls")),
     path("api/", include("core.apps.referral.urls")),
+    path("api/", include("core.apps.payments.urls")),
 ]
 urlpatterns += [
     path("admin/", admin.site.urls),

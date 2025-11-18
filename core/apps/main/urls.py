@@ -6,12 +6,16 @@ from .views import (
     AdView,
     CategoryView,
     CompanyLetterSummaryView,
+    DashboardAdsView,
+    MyadsView,
     PricebracketView,
     PriceCalculationView,
     ProductServiceView,
 )
 
 router = DefaultRouter()
+router.register("dashboard-ads", DashboardAdsView, basename="DashboardAds")
+router.register("my-ads", MyadsView, basename="my-ads")
 router.register("product-service", ProductServiceView, basename="ProductService")
 router.register("category", CategoryView, basename="category")
 router.register("price-bracket", PricebracketView, basename="price-bracket")
