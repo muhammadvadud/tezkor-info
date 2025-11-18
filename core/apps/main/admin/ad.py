@@ -16,3 +16,6 @@ class AdAdmin(ModelAdmin):
         "__str__",
     )
     inlines = [AdFilesAdmin]
+    autocomplete_fields = [
+        "company_selections"
+    ]

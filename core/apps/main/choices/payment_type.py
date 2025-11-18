@@ -7,6 +7,6 @@ class PaymentsTypeChoice(models.TextChoices):
     Payments Type Choice
     """
 
-    CLICK = "CLICK", _("Click")
+    REFERRAL = "REFERRAL", _("Referral")
     PAYME = "PAYME", _("Payme")
     OTHER = "OTHER", _("Other")

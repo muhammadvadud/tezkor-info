@@ -1,6 +1,6 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
-from core.apps.main.permissions import AdPermission
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from core.apps.main.models import AdModel
@@ -15,7 +15,7 @@ from core.apps.main.serializers.dashboard_ads import (
 class DashboardAdsView(BaseViewSetMixin, ReadOnlyModelViewSet):
     queryset = AdModel.objects.all()
     serializer_class = ListDashboardAdsSerializer
-    permission_classes = [AdPermission]
+    permission_classes = [IsAuthenticated]
 
     action_permission_classes = {}
     action_serializer_class = {

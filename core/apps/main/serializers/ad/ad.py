@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
+from core.apps.main.choices import PaymentsTypeChoice
 from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel, CategoryModel
 from core.apps.main.serializers.activate_types import ListActivateTypesSerializer
 
@@ -38,7 +38,7 @@ class AdFilesSerializer(serializers.ModelSerializer):
 class BaseAdSerializer(serializers.ModelSerializer):
     creator = OwnerInfoSerializer(read_only=True)
     files = AdFilesSerializer(read_only=True, many=True)
-    countries = CompanySelectionModelSerializer(read_only=True, many=True)
+    company_selections = CompanySelectionModelSerializer(read_only=True, many=True)
 
     class Meta:
         model = AdModel
@@ -48,7 +48,7 @@ class BaseAdSerializer(serializers.ModelSerializer):
             "total_view_count",
             "creator",
             "files",
-            "countries",
+            "company_selections",
         ]
 
 
@@ -72,15 +72,23 @@ class CreateAdSerializer(BaseAdSerializer):
             "description",
             "files",
             "types",
-            "countries",
             "total_price",
-            "is_referral_payments",
             "payments_type",
             "company_selections",
         ]
         extra_kwargs = {
-            "is_referral_payments": {"required": False},
+            "total_price": {"required": True},
+            "payments_type": {"required": True}
         }
+
+    def validate(self, data):
+        payments_type = data.get("payments_type")
+        total_price = data.get("total_price")
+        if payments_type == PaymentsTypeChoice.REFERRAL:
+            user = self.context['request'].user
+            if user.referral_amount < total_price:
+                raise serializers.ValidationError({"user": "Hisobingizda mablag' yetarli emas1!"})
+        return data
 
     def create(self, validated_data):
         user = self.context.get("request").user

@@ -14,6 +14,8 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(CompanySelectionModel)
 class CompanySelectionModelAdmin(ModelAdmin):
+    search_fields = ["id"]
+
     list_display = (
         "id",
         "__str__",

@@ -14,14 +14,12 @@ class AdModel(AbstractBaseModel):
     description = models.TextField(verbose_name=_("description"))
     total_view_count = models.PositiveIntegerField(verbose_name=_("view count"), default=0)
     types = models.ManyToManyField("main.CategoryModel", verbose_name=_("types"))
-    is_referral_payments = models.BooleanField(default=False, verbose_name=_("is referral payments"))
     total_price = models.BigIntegerField(verbose_name=_("total price"), default=0)
     payments_type = models.CharField(max_length=255, choices=PaymentsTypeChoice, default=PaymentsTypeChoice.OTHER,
                                      verbose_name=_("payments type"))
     company_selections = models.ManyToManyField("main.CompanySelectionModel", verbose_name=_("company selections"))
     status = models.CharField(max_length=255, verbose_name=_("status"), choices=PaymentsStatusChoice,
                               default=PaymentsStatusChoice.PENDING)
-
 
     def __str__(self):
         return str(self.pk)
