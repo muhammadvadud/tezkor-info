@@ -16,7 +16,7 @@ from core.apps.main.serializers.category import (
 
 @extend_schema(tags=["category"])
 class CategoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
-    queryset = CategoryModel.objects.filter()
+    queryset = CategoryModel.objects.all()
     serializer_class = ListCategorySerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
@@ -29,8 +29,16 @@ class CategoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
         "create": CreateCategorySerializer,
     }
 
+    def get_queryset(self):
+        parent_id = self.request.query_params.get("parent")
+
+        if parent_id:
+            return CategoryModel.objects.filter(parent_id=parent_id).order_by("order", "id")
+        return CategoryModel.objects.filter(level=2).order_by("order", "id")
+
     def get_serializer_class(self):
         is_tree = self.request.query_params.get('is_tree', '').lower() == 'true'
         if is_tree:
             return ListCategoryTreeSerializer
+
         return super().get_serializer_class()

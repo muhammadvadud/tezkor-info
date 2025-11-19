@@ -78,17 +78,7 @@ class CreateAdSerializer(BaseAdSerializer):
         ]
         extra_kwargs = {
             "total_price": {"required": True},
-            "payments_type": {"required": True}
         }
-
-    def validate(self, data):
-        payments_type = data.get("payments_type")
-        total_price = data.get("total_price")
-        if payments_type == PaymentsTypeChoice.REFERRAL:
-            user = self.context['request'].user
-            if user.referral_amount < total_price:
-                raise serializers.ValidationError({"user": "Hisobingizda mablag' yetarli emas1!"})
-        return data
 
     def create(self, validated_data):
         user = self.context.get("request").user
