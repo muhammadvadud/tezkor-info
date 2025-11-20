@@ -26,11 +26,7 @@ PAGES = [
                 "icon": "group",
                 "link": reverse_lazy("admin:accounts_user_changelist"),
             },
-            {
-                "title": _("Main"),
-                "icon": "group",
-                "link": reverse_lazy("admin:main_pricebracketmodel_changelist"),
-            },
+
         ],
     },
 ]

@@ -642,3 +642,49 @@ def import_oked_categories_final_v2():
 
     except Exception as e:
         print(f"Global xato: Kategoriyalar importi bekor qilindi. Xato: {e}")
+
+
+###########################################
+#
+#       Davlatlarni qo'shadigan funksiya
+#
+###########################################
+
+
+import pycountry
+from core.apps.accounts.models.region import Country
+
+
+def load_all_country_codes():
+    """
+    Barcha davlatlarning alpha-2 kodlarini ('UZ', 'RU', 'US', ...) name field ga yozadi.
+    """
+    for c in pycountry.countries:
+        code = c.alpha_2.upper()  # KATTA HARFDA
+        Country.objects.get_or_create(name=code)
+
+
+from core.apps.main.models import PriceCountryModel
+from core.apps.accounts.models.region import Country
+
+
+def set_country_prices(default_price, custom_prices=None):
+    """
+    default_price -> ko‘pchilik davlatlar uchun narx
+    custom_prices -> {"UZ": 10000, "RU": 20000} kabi alohida narxlar
+    """
+
+    if custom_prices is None:
+        custom_prices = {}
+
+    # Barcha davlatlarni olish
+    all_countries = Country.objects.all()
+
+    for country in all_countries:
+        # Agar bu davlat custom bo'lsa — alohida narx
+        price_value = custom_prices.get(country.name, default_price)
+
+        PriceCountryModel.objects.update_or_create(
+            country=country,
+            defaults={"price": price_value}
+        )
