@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Checkout Code') {
             steps {
-                git branch: 'main', credentialsId: 'Muhammadvadud', url: 'https://gitea.felixits.uz/felixits/tezinfo-backend.git'
+                git branch: 'main', credentialsId: 'muhammadvadud', url: 'https://github.com/muhammadvadud/tezkor-info.git'
             }
         }
         stage('Prepare') {
