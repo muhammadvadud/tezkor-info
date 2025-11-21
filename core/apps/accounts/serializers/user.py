@@ -27,9 +27,26 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+    activate_types = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=CategoryModel.objects.all(),
+        write_only=True
+    )
+
     class Meta:
         model = get_user_model()
         fields = [
             "first_name",
-            "last_name"
+            "last_name",
+            "activate_types"
         ]
+
+    def update(self, instance, validated_data):
+        activate_types = validated_data.pop("activate_types", None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if activate_types is not None:
+            instance.activate_types.set(activate_types)
+        return instance

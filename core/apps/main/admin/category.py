@@ -6,6 +6,7 @@ from core.apps.main.models import CategoryModel, CompanySelectionModel
 
 @admin.register(CategoryModel)
 class CategoryAdmin(ModelAdmin):
+    search_fields = ["id"]
     list_display = (
         "id",
         "__str__",
@@ -15,7 +16,6 @@ class CategoryAdmin(ModelAdmin):
 @admin.register(CompanySelectionModel)
 class CompanySelectionModelAdmin(ModelAdmin):
     search_fields = ["id"]
-
     list_display = (
         "id",
         "__str__",
