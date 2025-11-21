@@ -4,6 +4,7 @@ from core.apps.main.models import ProductServiceModel, ProductServiceFilesModel
 from django.contrib.auth import get_user_model
 from core.apps.accounts.models.region import Country
 from django.db.models import Count
+from core.apps.main.models import CategoryModel
 
 
 class CompanyNameSerializer(serializers.ModelSerializer):
@@ -55,6 +56,7 @@ class CreateProductServiceSerializer(BaseProductServiceSerializer):
         write_only=True
     )
     delete_files = serializers.ListField(child=serializers.CharField(), write_only=True, required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=CategoryModel.objects.all(), write_only=True, required=True)
 
     class Meta(BaseProductServiceSerializer.Meta):
         fields = [
@@ -77,7 +79,6 @@ class CreateProductServiceSerializer(BaseProductServiceSerializer):
 
     def update(self, instance, validated_data):
         delete_files = validated_data.pop("delete_files", [])
-        print(delete_files)
         new_files = validated_data.pop("files", [])
 
         for attr, value in validated_data.items():
