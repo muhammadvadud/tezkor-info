@@ -9,5 +9,4 @@ class ReferralFilter(filters.FilterSet):
     class Meta:
         model = ReferralModel
         fields = [
-            "name",
         ]
