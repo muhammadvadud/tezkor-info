@@ -20,6 +20,7 @@ class BaseReferralSerializer(serializers.ModelSerializer):
             "referral_registered_count",
             "referral_posted_ads_count",
             "referral_income_amount",
+            "description",
         ]
 
 
@@ -36,7 +37,11 @@ class CreateReferralSerializer(BaseReferralSerializer):
         fields = [
             "id",
             "code",
+            "description",
         ]
+        extra_kwargs = {
+            "description": {"required": False},
+        }
 
     def create(self, validated_data):
         validated_data['user'] = self.context["request"].user

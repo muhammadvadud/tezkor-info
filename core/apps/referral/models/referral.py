@@ -12,6 +12,7 @@ class ReferralModel(AbstractBaseModel):
     referral_registered_count = models.IntegerField(verbose_name=_("referral registered count"), default=0)
     referral_posted_ads_count = models.IntegerField(verbose_name=_("referral posted ads count"), default=0)
     referral_income_amount = models.IntegerField(verbose_name=_("referral income amount"), default=0)
+    description = models.TextField(verbose_name=_("description"), blank=True, null=True)
 
     def __str__(self):
         return str(self.pk)
