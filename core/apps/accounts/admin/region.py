@@ -2,6 +2,7 @@ from unfold.admin import ModelAdmin
 
 from core.apps.accounts.models.region import Region, District, Country
 from django.contrib import admin
+from core.apps.accounts.models import UserTgIds
 
 
 @admin.register(Region)
@@ -22,6 +23,14 @@ class DistrictAdmin(ModelAdmin):
 
 @admin.register(Country)
 class CountryAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "__str__",
+    )
+
+
+@admin.register(UserTgIds)
+class UserTgIdsAdmin(ModelAdmin):
     list_display = (
         "id",
         "__str__",

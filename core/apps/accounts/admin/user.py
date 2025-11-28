@@ -38,6 +38,7 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
                     "groups",
                     "user_permissions",
                     "role",
+                    "user_tg_ids",
                 ),
             },
         ),

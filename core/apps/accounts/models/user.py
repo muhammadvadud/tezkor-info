@@ -4,6 +4,7 @@ from .region import District
 from ..choices import RoleChoice, PersonTypeChoice
 from ..managers import UserManager
 from core.apps.main.models import CategoryModel
+from core.apps.accounts.models.tg_ids import UserTgIds
 
 
 class User(auth_models.AbstractUser):
@@ -19,6 +20,7 @@ class User(auth_models.AbstractUser):
     referral_share = models.IntegerField(default=10)
     referral = models.CharField(max_length=255, null=True, blank=True)
     referral_amount = models.PositiveIntegerField(default=0)
+    user_tg_ids = models.ManyToManyField(UserTgIds, blank=True)
     role = models.CharField(
         max_length=255,
         choices=RoleChoice,

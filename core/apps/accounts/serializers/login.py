@@ -21,6 +21,7 @@ class OTPLoginSerializer(serializers.Serializer):
 class OTPConfirmSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=OTP_SIZE, min_length=OTP_SIZE)
     phone = serializers.CharField(max_length=255)
+    tg_id = serializers.CharField(max_length=255, required=False)
 
 
 class OTPResendSerializer(serializers.Serializer):

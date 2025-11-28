@@ -12,6 +12,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.viewsets import GenericViewSet
 from django_core.mixins import BaseViewSetMixin
 from rest_framework.decorators import action
+from core.apps.accounts.models.tg_ids import UserTgIds
 from ..serializers import (
     OTPLoginSerializer,
     OTPConfirmSerializer,
@@ -61,9 +62,16 @@ class LoginView(BaseViewSetMixin, GenericViewSet, UserService):
         ser.is_valid(raise_exception=True)
         data = ser.data
         phone, code = data.get("phone"), data.get("code")
+        tg_id = data.get("tg_id") or None
+
         try:
             if SmsService.check_confirm(phone, code=code):
                 token = self.validate_user(get_user_model().objects.filter(phone=phone).first())
+                if tg_id:
+                    user = get_user_model().objects.filter(phone=phone).first()
+                    tg_obj, created = UserTgIds.objects.get_or_create(tg_id=tg_id)
+                    user.user_tg_ids.add(tg_obj)
+                    user.save()
                 return Response(
                     data={
                         "detail": _("Tasdiqlash ko'di qabul qilindi"),
