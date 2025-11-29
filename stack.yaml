@@ -151,9 +151,7 @@ services:
         max-file: "3"
 
   bot:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile.bot
+    image: muhammadvadud/tezkor-bot:latest
     networks:
       - tezkor-info
     volumes:
