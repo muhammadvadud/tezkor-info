@@ -45,6 +45,8 @@ boto3
 
 payme-pkg==3.0.28
 pycountry
+aiogram==3.22.0
+watchfiles
 # !NOTE: on-websocket
 # websockets
 # channels-redis

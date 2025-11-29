@@ -15,6 +15,8 @@ BASE_DIR = pathlib.Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 ALLOWED_HOSTS: Union[List[str]] = ["*"]
 
 if env.bool("PROTOCOL_HTTPS", False):

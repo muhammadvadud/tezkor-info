@@ -52,5 +52,18 @@ services:
     networks:
       - network
     restart: always
-
     image: redis
+  bot:
+    networks:
+      - network
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.bot
+    volumes:
+      - ./bot:/app/bot
+    env_file:
+      - .env
+
+    depends_on:
+      - web
+      - db

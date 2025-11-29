@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserTgIds(AbstractBaseModel):
-    tg_id = models.IntegerField(verbose_name=_("id"))
+    tg_id = models.BigIntegerField(verbose_name=_("id"))
 
     def __str__(self):
         return str(self.pk)

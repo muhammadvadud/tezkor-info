@@ -9,7 +9,7 @@ class CompanySelectionModel(AbstractBaseModel):
     country = models.CharField(verbose_name=_("country"), max_length=255)
     region = models.CharField(verbose_name=_("region"), max_length=255)
     district = models.CharField(verbose_name=_("district"), max_length=255)
-    letters = models.CharField(verbose_name=_("district"), max_length=255)
+    letters = models.CharField(verbose_name=_("letters"), max_length=255)
     total_companies = models.IntegerField(verbose_name=_("total_companies"))
     ad_price = models.PositiveBigIntegerField(verbose_name=_("ad_price"))
     total_price = models.PositiveBigIntegerField(verbose_name=_("total_price"))
