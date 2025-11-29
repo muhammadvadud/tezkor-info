@@ -150,6 +150,41 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  bot:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.bot
+    networks:
+      - tezkor-info
+    volumes:
+      - ./bot:/app/bot
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      update_config:
+        failure_action: rollback
+        monitor: 20s
+        delay: 20s
+        max_failure_ratio: 0.2
+        parallelism: 1
+        order: start-first
+    healthcheck:
+      test: [ "CMD-SHELL", "echo 'ok'" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 networks:
   tezkor-info:
     driver: overlay
