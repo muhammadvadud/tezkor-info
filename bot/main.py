@@ -11,7 +11,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, InputMediaDocument
 from aiogram.filters import Command
 
 bot = Bot(token=os.getenv("BOT_TOKEN"))
@@ -72,7 +72,6 @@ async def send_ad_bot(ad_data, files, tg_ids, bot: Bot):
 {ad_data['phone']}
 """
 
-    # Agar fayllar bo‘lmasa → text yuboriladi
     if not files:
         for tg_id in tg_ids:
             try:
@@ -81,29 +80,25 @@ async def send_ad_bot(ad_data, files, tg_ids, bot: Bot):
                 print(f"[ERROR] Matn yuborilmadi ({tg_id}): {e}")
         return
 
-    # Bitta media-group yasaymiz
     media_group = []
 
     for index, file_path in enumerate(files):
         ext = os.path.splitext(file_path)[1].lower()
         input_file = FSInputFile(file_path)
 
-        # Birinchi media → caption bo‘ladi
         if ext in [".jpg", ".jpeg", ".png", ".webp"]:
             media = InputMediaPhoto(media=input_file)
         elif ext in [".mp4", ".mov", ".avi"]:
             media = InputMediaVideo(media=input_file)
         else:
-            # Noma'lum format → document bo‘lib ketadi
             media = InputMediaPhoto(media=input_file)
 
-        if index == 0:  # faqat birinchi rasm/video caption oladi
+        if index == 0:
             media.caption = caption
             media.parse_mode = "HTML"
 
         media_group.append(media)
 
-    # Har bir userga media-group yuboramiz
     for tg_id in tg_ids:
         try:
             await bot.send_media_group(chat_id=tg_id, media=media_group)
@@ -111,10 +106,65 @@ async def send_ad_bot(ad_data, files, tg_ids, bot: Bot):
             print(f"[ERROR] Media-group yuborilmadi ({tg_id}): {e}")
 
 
-async def main():
-    logger.info("Bot ishga tushmoqda...")
-    await dp.start_polling(bot)
+async def send_user_notification(notification, files, tg_ids, bot):
+    caption = f"📢 *{notification.title}*\n\n{notification.description}"
 
+    # Media group tayyorlash
+    media_group = []
 
-if __name__ == "__main__":
-    asyncio.run(main())
+    for idx, file_path in enumerate(files):
+        ext = os.path.splitext(file_path)[1].lower()
+        file_obj = FSInputFile(file_path)
+
+        # ----- IMAGE -----
+        if ext in [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"]:
+            media = InputMediaPhoto(
+                media=file_obj,
+                caption=caption if idx == 0 else None,
+                parse_mode="Markdown"
+            )
+
+        # ----- VIDEO -----
+        elif ext in [".mp4", ".mov", ".m4v", ".avi", ".mkv"]:
+            media = InputMediaVideo(
+                media=file_obj,
+                caption=caption if idx == 0 else None,
+                parse_mode="Markdown"
+            )
+
+        # ----- BARCHA BOSHQA FORMATLAR -----
+        else:
+            media = InputMediaDocument(
+                media=file_obj,
+                caption=caption if idx == 0 else None,
+                parse_mode="Markdown"
+            )
+
+        media_group.append(media)
+
+    # 🔥 YUBORISH
+    for tg_id in tg_ids:
+
+        if media_group:
+            try:
+                await bot.send_media_group(chat_id=tg_id, media=media_group)
+            except Exception as e:
+                print(f"Skipping invalid user {tg_id}: {e}")
+                continue
+        else:
+            try:
+                await bot.send_message(
+                    chat_id=tg_id,
+                    text=caption,
+                    parse_mode="Markdown"
+                )
+            except Exception as e:
+                print(f"Skipping invalid user {tg_id}: {e}")
+                continue
+
+    async def main():
+        logger.info("Bot ishga tushmoqda...")
+        await dp.start_polling(bot)
+
+    if __name__ == "__main__":
+        asyncio.run(main())

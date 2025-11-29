@@ -8,6 +8,7 @@ from core.apps.main.models import PriceCountryModel
 from core.apps.main.serializers import PriceCalculateSerializer
 from core.apps.accounts.choices.user import PersonTypeChoice
 from drf_spectacular.utils import extend_schema
+from django.db.models import Q
 
 
 @extend_schema(tags=["price-calculate"])
@@ -21,15 +22,18 @@ class PriceCalculationAPIView(APIView):
         country_name = serializer.validated_data["country"]
         region_name = serializer.validated_data["region"]
         district_name = serializer.validated_data["district"]
-        letters = serializer.validated_data["letters"]
+        letters_raw = serializer.validated_data["letters"]
 
-        # 1️⃣ Country
+        # 1) Letters → list
+        letters = [l.strip() for l in letters_raw.split(",") if l.strip()]
+
+        # 2) Country
         try:
             country = Country.objects.get(name__iexact=country_name)
         except Country.DoesNotExist:
             return Response({"error": "Country not found"}, status=400)
 
-        # 2️⃣ Region (all or exact)
+        # 3) Region
         if region_name.lower() == "all":
             regions = Region.objects.filter(country=country)
         else:
@@ -39,7 +43,7 @@ class PriceCalculationAPIView(APIView):
             except Region.DoesNotExist:
                 return Response({"error": "Region not found"}, status=400)
 
-        # 3️⃣ District (all or exact)
+        # 4) District
         if district_name.lower() == "all":
             districts = District.objects.filter(region__in=regions)
         else:
@@ -49,22 +53,26 @@ class PriceCalculationAPIView(APIView):
             except District.DoesNotExist:
                 return Response({"error": "District not found"}, status=400)
 
-        # 4️⃣ User filter
+        # 5) Create OR filter for letters
+        q_filter = Q()
+        for l in letters:
+            q_filter |= Q(company_name__istartswith=l)
+
+        # 6) Users
         users = User.objects.filter(
             person_type=PersonTypeChoice.LEGAL_ENTITY,
-            district__in=districts,
-            company_name__istartswith=letters
-        )
+            district__in=districts
+        ).filter(q_filter)
 
         user_count = users.count()
 
-        # 5️⃣ Price
+        # 7) Country price
         try:
             country_price = PriceCountryModel.objects.get(country=country).price
         except PriceCountryModel.DoesNotExist:
             return Response({"error": "Price for this country not found"}, status=400)
 
-        # 6️⃣ Total
+        # 8) Total
         total_price = user_count * country_price
 
         return Response({
