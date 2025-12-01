@@ -23,4 +23,3 @@ class MyadsView(BaseViewSetMixin, ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return AdModel.objects.filter(created_by=user)
-

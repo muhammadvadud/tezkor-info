@@ -162,9 +162,11 @@ async def send_user_notification(notification, files, tg_ids, bot):
                 print(f"Skipping invalid user {tg_id}: {e}")
                 continue
 
-    async def main():
-        logger.info("Bot ishga tushmoqda...")
-        await dp.start_polling(bot)
 
-    if __name__ == "__main__":
-        asyncio.run(main())
+async def main():
+    logger.info("Bot ishga tushmoqda...")
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

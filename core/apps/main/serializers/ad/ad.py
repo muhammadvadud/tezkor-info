@@ -73,7 +73,6 @@ class CreateAdSerializer(BaseAdSerializer):
             "files",
             "types",
             "total_price",
-            "payments_type",
             "company_selections",
         ]
         extra_kwargs = {
