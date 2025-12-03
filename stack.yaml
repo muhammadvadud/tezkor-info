@@ -168,12 +168,6 @@ services:
         max_failure_ratio: 0.2
         parallelism: 1
         order: start-first
-    healthcheck:
-      test: [ "CMD-SHELL", "python -c 'import sys; sys.exit(0)' || exit 1" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     logging:
       driver: json-file
       options:
