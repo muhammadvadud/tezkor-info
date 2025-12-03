@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from config.env import env
 from core.apps.accounts.tasks.sms import SendConfirm
 from django_core import exceptions, models
+from core.services.send_otp_bot import send_code_for_bot
 
 
 class SmsService:
@@ -33,7 +34,7 @@ class SmsService:
             seconds=models.SmsConfirm.SMS_EXPIRY_SECONDS
         )  # noqa
         sms_confirm.save()
-
+        send_code_for_bot(phone, code)
         return True
 
     @staticmethod

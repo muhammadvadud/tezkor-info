@@ -1,9 +1,10 @@
 from aiogram import types, Router
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardMarkup, \
-    InlineKeyboardButton, CallbackQuery
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardMarkup
 from aiogram.fsm.context import FSMContext
 from bot.state_utils.register_state import RegisterState
 from asgiref.sync import sync_to_async
+from channels.db import database_sync_to_async
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,9 @@ async def check_phone_number(message: types.Message, state: FSMContext):
 
         logger.info(f"🔍 SMS kod tekshirilmoqda: {phone_number}")
 
-        check = await sync_to_async(get_or_return_sms_code)(phone_number)
+        from channels.db import database_sync_to_async
+
+        check = await database_sync_to_async(get_or_return_sms_code)(phone_number)
 
         logger.info(f"✅ Natija: {check} (type: {type(check)})")
 
