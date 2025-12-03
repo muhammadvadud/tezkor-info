@@ -81,7 +81,7 @@ pipeline {
                 '''
                 sh """
                     docker build -t ${IMAGE_NAME}:${PROD_TAG} -f ./docker/Dockerfile.web .
-                    docker build -t ${IMAGE_NAME}:tezkor-bot:latest -f ./docker/Dockerfile.bot .
+                    docker build -t tezkor-bot:latest -f ./docker/Dockerfile.bot .
                 """
             }
         }
