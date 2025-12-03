@@ -116,7 +116,6 @@ pipeline {
                         -e DB_PASSWORD=postgres \
                         -e DJANGO_SETTINGS_MODULE=config.settings.test \
                         ${IMAGE_NAME}:${PROD_TAG} \
-                        -e tezkor-bot:latest \
                         sh -c "python manage.py migrate && pytest -v"
                 """
             }
