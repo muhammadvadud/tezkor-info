@@ -52,6 +52,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         sed -i 's|image: ${DOCKER_USER}/${IMAGE_NAME}:.*|image: ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|' stack.yaml
+                        sed -i 's|image: ${DOCKER_USER}/tezkor-bot:.*|image: ${DOCKER_USER}/tezkor-bot:${BUILD_NUMBER}|' stack.yaml
                         sed -i 's/return HttpResponse("OK.*"/return HttpResponse("OK: #${GIT_COMMIT}"/' config/urls.py
                     """
                         // git config --global user.email "admin@jscorp.uz"
@@ -80,6 +81,7 @@ pipeline {
                 '''
                 sh """
                     docker build -t ${IMAGE_NAME}:${PROD_TAG} -f ./docker/Dockerfile.web .
+                    docker build -t ${IMAGE_NAME}:tezkor-bot:latest -f ./docker/Dockerfile.bot .
                 """
             }
         }
@@ -128,9 +130,11 @@ pipeline {
                     sh '''
                         echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
                         docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
-                        docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
+                        docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/tezkor-bot:${PROD_TAG}
+                        docker tag tezkor-bot:latest ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
                         docker push ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
                         docker push ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
+                        docker push ${DOCKER_USER}/tezkor-bot:${PROD_TAG}
                     '''
                 }
             }
