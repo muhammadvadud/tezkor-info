@@ -9,4 +9,5 @@ class PaymentsStatusChoice(models.TextChoices):
 
     PENDING = "pending", _("Pending")
     PAID = "paid", _("Paid")
+    VERIFIED = "verified", _("Verified")
     CANCELED = "canceled", _("Canceled")

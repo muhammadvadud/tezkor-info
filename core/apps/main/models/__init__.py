@@ -5,3 +5,4 @@ from .company_selection import *  # noqa
 from .notification import *  # noqa
 from .PriceCountry import *  # noqa
 from .product_service import *  # noqa
+from .price_bracket import *  # noqa

@@ -110,7 +110,7 @@ services:
     ports:
       - mode: ingress
         target: 80
-        published: 8099
+        published: 8001
         protocol: tcp
     volumes:
       - type: bind
@@ -154,29 +154,26 @@ services:
     image: muhammadvadud/tezkor-bot:latest
     networks:
       - tezkor-info
-    volumes:
-      - ./bot:/app/bot
     env_file:
       - .env
-    depends_on:
-      - web
-      - db
     deploy:
       replicas: 1
       restart_policy:
         condition: any
+        delay: 10s
       update_config:
         failure_action: rollback
-        monitor: 20s
-        delay: 20s
+        monitor: 30s
+        delay: 30s
         max_failure_ratio: 0.2
         parallelism: 1
         order: start-first
     healthcheck:
-      test: [ "CMD-SHELL", "echo 'ok'" ]
-      interval: 15s
-      timeout: 5s
+      test: [ "CMD-SHELL", "python -c 'import sys; sys.exit(0)' || exit 1" ]
+      interval: 30s
+      timeout: 10s
       retries: 3
+      start_period: 40s
     logging:
       driver: json-file
       options:

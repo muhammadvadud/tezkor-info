@@ -70,7 +70,6 @@ class RegisterView(BaseViewSetMixin, GenericViewSet, UserService):
         data = ser.data
         phone, code = data.get("phone"), data.get("code")
         tg_id = data.get("tg_id")
-        print(tg_id)
 
         try:
             if SmsService.check_confirm(phone, code=code):

@@ -1,1 +1,1 @@
-from .main import *  # noqa
+__all__ = []

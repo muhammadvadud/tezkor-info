@@ -3,7 +3,6 @@ import asyncio
 from aiogram import Bot
 from django.conf import settings
 from .get_users import get_users_for_ad
-from bot.main import send_ad_bot
 
 
 def send_ad(ad):
@@ -36,6 +35,8 @@ def send_ad(ad):
 def _run_async_send(ad_data, files, tg_ids):
     async def _task():
         bot = Bot(token=settings.BOT_TOKEN)
+        from bot.utils.sender import send_ad_bot
+
         await send_ad_bot(ad_data, files, tg_ids, bot)
         await bot.session.close()
 

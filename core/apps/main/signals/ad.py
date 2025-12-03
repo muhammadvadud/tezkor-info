@@ -12,6 +12,5 @@ def check_paid_status(sender, instance, **kwargs):
 
     old = AdModel.objects.get(pk=instance.pk)
     if old.status != PaymentsStatusChoice.PAID and instance.status == PaymentsStatusChoice.PAID:
-        print("yangilandi!")
         return send_ad(instance)
     return

@@ -3,9 +3,9 @@ networks:
     driver: bridge
 
 volumes:
-  pg_data: null
-  rabbitmq: null
-  pycache: null
+  pg_data:
+  rabbitmq:
+  pycache:
 
 services:
   nginx:
@@ -21,6 +21,7 @@ services:
       dockerfile: ./docker/Dockerfile.nginx
     depends_on:
       - web
+
   web:
     networks:
       - network
@@ -37,6 +38,7 @@ services:
     depends_on:
       - db
       - redis
+
   db:
     networks:
       - network
@@ -48,22 +50,38 @@ services:
       POSTGRES_PASSWORD: '2309'
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   redis:
     networks:
       - network
     restart: always
     image: redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   bot:
     networks:
       - network
     build:
       context: .
       dockerfile: ./docker/Dockerfile.bot
-    volumes:
-      - ./bot:/app/bot
+    restart: always
     env_file:
       - .env
-
+    volumes:
+      - .:/app
     depends_on:
-      - web
-      - db
+      db:
+        condition: service_healthy
+      web:
+        condition: service_started
+    stop_grace_period: 30s
+    stop_signal: SIGTERM

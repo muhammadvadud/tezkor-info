@@ -13,7 +13,7 @@ class SmsService:
         if env.bool("OTP_PROD", False):
             code = "".join(str(random.randint(0, 9)) for _ in range(env.int("OTP_SIZE", 4)))
         else:
-            code = env.int("OTP_DEFAULT", 1111) 
+            code = env.int("OTP_DEFAULT", 1111)
 
         sms_confirm, status = models.SmsConfirm.objects.get_or_create(phone=phone, defaults={"code": code})
 
@@ -28,13 +28,12 @@ class SmsService:
         sms_confirm.try_count = 0
         sms_confirm.resend_count += 1
         sms_confirm.phone = phone
-        sms_confirm.expired_time = datetime.now() + timedelta(seconds=models.SmsConfirm.SMS_EXPIRY_SECONDS)  # noqa
+        sms_confirm.expire_time = datetime.now() + timedelta(seconds=models.SmsConfirm.SMS_EXPIRY_SECONDS)  # noqa
         sms_confirm.resend_unlock_time = datetime.now() + timedelta(
             seconds=models.SmsConfirm.SMS_EXPIRY_SECONDS
         )  # noqa
         sms_confirm.save()
 
-        SendConfirm.delay(phone, code)
         return True
 
     @staticmethod
@@ -61,3 +60,7 @@ class SmsService:
         sms_confirm.save()
 
         raise exceptions.SmsException("Invalid confirmation code")
+
+    @classmethod
+    def check_code_exists(phone):
+        sms_confirm = models.SmsConfirm.objects.filter(phone=phone).first()

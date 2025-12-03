@@ -2,7 +2,6 @@ import threading
 import asyncio
 from aiogram import Bot
 from django.conf import settings
-from bot.main import send_user_notification
 from core.apps.main.models import NotificationModel
 from core.apps.accounts.models import UserTgIds
 
@@ -25,6 +24,7 @@ def send_notification(notification: NotificationModel):
 def _run_async_send(notification, files, tg_ids):
     async def _task():
         bot = Bot(token=settings.BOT_TOKEN)
+        from bot.utils.sender import send_user_notification
 
         await send_user_notification(notification, files, tg_ids, bot)
 

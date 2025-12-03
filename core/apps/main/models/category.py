@@ -17,6 +17,12 @@ class CategoryModel(AbstractBaseModel):
     level = models.PositiveIntegerField(default=1)
     order = models.PositiveIntegerField(null=True, blank=True)
     is_leaf = models.BooleanField(default=True)
+    icon_name = models.CharField(
+        verbose_name=_("icon name"),
+        max_length=255,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return str(self.pk)
