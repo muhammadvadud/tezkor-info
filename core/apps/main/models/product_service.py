@@ -13,7 +13,7 @@ class ProductServiceModel(AbstractBaseModel):
         related_name="product_service_company",
         verbose_name=_("company"),
     )
-    category = models.ForeignKey("main.CategoryModel", on_delete=models.CASCADE, verbose_name=_("category"))
+    category = models.ManyToManyField("main.CategoryModel", verbose_name=_("category"))
 
     def __str__(self):
         return str(self.pk)
