@@ -1,9 +1,9 @@
 from aiogram import types, Router
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardMarkup
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from bot.state_utils.register_state import RegisterState
 from asgiref.sync import sync_to_async
-from channels.db import database_sync_to_async
+from django.db import close_old_connections
 
 import logging
 
@@ -29,6 +29,23 @@ async def start_welcome_flow(message: types.Message, state: FSMContext):
     await message.answer(WELCOME_TEXT, reply_markup=contact_keyboard)
 
 
+async def safe_db_call(func, *args, **kwargs):
+    """
+    Database operatsiyalarini asinxron kontekstda xavfsiz bajarish
+    """
+    try:
+        await sync_to_async(close_old_connections)()
+
+        result = await sync_to_async(func)(*args, **kwargs)
+
+        return result
+    except Exception as e:
+        logger.error(f"Database operatsiyasida xatolik: {e}", exc_info=True)
+        raise
+    finally:
+        await sync_to_async(close_old_connections)()
+
+
 @router.message(RegisterState.wait_phone)
 async def check_phone_number(message: types.Message, state: FSMContext):
     if not message.contact:
@@ -41,6 +58,7 @@ async def check_phone_number(message: types.Message, state: FSMContext):
         )
         await message.answer("Iltimos pastdagi tugmani bosing 👇", reply_markup=contact_keyboard)
         return
+
     phone_number = message.contact.phone_number.lstrip('+')
     logger.info(f"📞 Telefon raqam qabul qilindi: {phone_number}")
 
@@ -49,8 +67,7 @@ async def check_phone_number(message: types.Message, state: FSMContext):
 
         logger.info(f"🔍 SMS kod tekshirilmoqda: {phone_number}")
 
-        from asgiref.sync import sync_to_async
-        check = await sync_to_async(get_or_return_sms_code)(phone_number)
+        check = await safe_db_call(get_or_return_sms_code, phone_number)
 
         logger.info(f"✅ Natija: {check} (type: {type(check)})")
 
@@ -58,12 +75,11 @@ async def check_phone_number(message: types.Message, state: FSMContext):
 
         if check and check is not False:
             text = f"SMS kod:||`{check}`||"
-
-            await message.answer(text=text,
-                                 parse_mode="MarkdownV2",
-                                 )
+            await message.answer(
+                text=text,
+                parse_mode="MarkdownV2",
+            )
             await state.clear()
-
         else:
             await message.answer(
                 "❌ Uzr, sizga hech qanday kod yuborilmagan!",

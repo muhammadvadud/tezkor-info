@@ -30,9 +30,10 @@ DATABASES = {
         "PASSWORD": env.str("DB_PASSWORD"),
         "HOST": env.str("DB_HOST"),
         "PORT": env.str("DB_PORT"),
+        'CONN_MAX_AGE': 0,
+        'CONN_HEALTH_CHECKS': True,
     }
 }
-
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptPasswordHasher",
 ]
