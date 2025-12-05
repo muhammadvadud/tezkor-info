@@ -45,6 +45,7 @@ class BaseConfirmationAdsSerializer(serializers.ModelSerializer):
         fields = [
             "title",
             "description",
+            "status",
             "total_view_count",
             "creator",
             "files",

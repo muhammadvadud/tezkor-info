@@ -11,6 +11,6 @@ def check_paid_status(sender, instance, **kwargs):
         return
 
     old = AdModel.objects.get(pk=instance.pk)
-    if old.status != PaymentsStatusChoice.PAID and instance.status == PaymentsStatusChoice.PAID:
+    if old.status != PaymentsStatusChoice.VERIFIED and instance.status == PaymentsStatusChoice.VERIFIED:
         return send_ad(instance)
     return

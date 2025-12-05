@@ -13,7 +13,13 @@ class AdFilesAdmin(admin.TabularInline):
 class AdAdmin(ModelAdmin):
     list_display = (
         "id",
-        "__str__",
+        "status",
+        "title",
+        "created_by",
+        "total_view_count",
+        "phone_number",
+        "payments_type",
+
     )
     inlines = [AdFilesAdmin]
     autocomplete_fields = [

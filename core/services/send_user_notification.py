@@ -8,7 +8,7 @@ from core.apps.accounts.models import UserTgIds
 
 def send_notification(notification: NotificationModel):
     tg_ids = list(
-        UserTgIds.objects.values_list("tg_id", flat=True)
+        UserTgIds.objects.values_list("tg_id", flat=True).distinct()
     )
 
     files = [f.file.path for f in notification.files.all()]

@@ -6,7 +6,6 @@ from .get_users import get_users_for_ad
 
 
 def send_ad(ad):
-    # 🔹 Django ORM — faqat sync muhitda
     users = get_users_for_ad(ad)
     tg_ids = []
 
@@ -20,7 +19,7 @@ def send_ad(ad):
         "title": ad.title,
         "description": ad.description,
         "username": username,
-        "phone": ad.created_by.phone,
+        "phone": ad.phone_number,
     }
 
     files = [f.file.path for f in ad.files.all()]

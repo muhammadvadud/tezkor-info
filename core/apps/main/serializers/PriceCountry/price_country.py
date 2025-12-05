@@ -8,7 +8,7 @@ class PriceCalculateSerializer(serializers.Serializer):
     region = serializers.CharField()
     district = serializers.CharField()
     letters = serializers.CharField()
-
+    types = serializers.CharField(required=True)
 #
 # class PriceCalculationSerializer(serializers.Serializer):
 #     people_count = serializers.IntegerField(write_only=True)

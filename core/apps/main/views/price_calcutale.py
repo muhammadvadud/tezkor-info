@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.apps.accounts.models import User
 from core.apps.accounts.models.region import Country, Region, District
-from core.apps.main.models import PriceCountryModel
+from core.apps.main.models import PriceCountryModel, PriceBracket
 from core.apps.main.serializers import PriceCalculateSerializer
 from core.apps.accounts.choices.user import PersonTypeChoice
 from drf_spectacular.utils import extend_schema
@@ -23,17 +23,16 @@ class PriceCalculationAPIView(APIView):
         region_name = serializer.validated_data["region"]
         district_name = serializer.validated_data["district"]
         letters_raw = serializer.validated_data["letters"]
+        types = serializer.validated_data["types"]
 
-        # 1) Letters → list
         letters = [l.strip() for l in letters_raw.split(",") if l.strip()]
+        types = [l.strip() for l in types.split(",") if l.strip()]
 
-        # 2) Country
         try:
             country = Country.objects.get(name__iexact=country_name)
         except Country.DoesNotExist:
             return Response({"error": "Country not found"}, status=400)
 
-        # 3) Region
         if region_name.lower() == "all":
             regions = Region.objects.filter(country=country)
         else:
@@ -43,7 +42,6 @@ class PriceCalculationAPIView(APIView):
             except Region.DoesNotExist:
                 return Response({"error": "Region not found"}, status=400)
 
-        # 4) District
         if district_name.lower() == "all":
             districts = District.objects.filter(region__in=regions)
         else:
@@ -53,34 +51,37 @@ class PriceCalculationAPIView(APIView):
             except District.DoesNotExist:
                 return Response({"error": "District not found"}, status=400)
 
-        # 5) Create OR filter for letters
         q_filter = Q()
         for l in letters:
             q_filter |= Q(company_name__istartswith=l)
 
-        # 6) Users
         users = User.objects.filter(
             person_type=PersonTypeChoice.LEGAL_ENTITY,
-            district__in=districts
+            district__in=districts,
+            activate_types__in=types,
         ).filter(q_filter)
 
         user_count = users.count()
 
-        # 7) Country price
         try:
-            country_price = PriceCountryModel.objects.get(country=country).price
-        except PriceCountryModel.DoesNotExist:
-            return Response({"error": "Price for this country not found"}, status=400)
+            bracket = PriceBracket.objects.get(
+                min_person__lte=user_count,
+                max_person__gte=user_count
+            )
+            price_per_person = bracket.price
+        except PriceBracket.DoesNotExist:
+            return Response({"error": "No price bracket found for this user count"}, status=400)
 
-        # 8) Total
-        total_price = user_count * country_price
+        total_price = user_count * price_per_person
+        user_ids = list(users.values_list("id", flat=True))
 
         return Response({
             "country": country.name,
             "region": region_name,
             "district": district_name,
             "letters": letters,
-            "country_price": country_price,
+            "one_person_price": price_per_person,
             "user_count": user_count,
-            "total_price": total_price
+            "total_price": total_price,
+            "user_ids": user_ids
         })

@@ -688,3 +688,14 @@ def set_country_prices(default_price, custom_prices=None):
             country=country,
             defaults={"price": price_value}
         )
+
+
+from core.apps.accounts.models.tg_ids import UserTgIds
+
+
+def create_user_ids(count: int, user_ids):
+    for _ in range(count):
+        created = UserTgIds.objects.create(tg_id=user_ids)
+        print(f"yaratildi:{_} {created.id}")
+
+    return True

@@ -5,7 +5,7 @@ import logging
 from signal import signal, SIGINT, SIGTERM
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-
+sys.path.insert(0, '/app')
 try:
     import django
 

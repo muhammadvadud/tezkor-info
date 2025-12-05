@@ -8,6 +8,7 @@ User = get_user_model()
 
 def get_users_for_ad(ad):
     selections = ad.company_selections.all()
+    types = list(ad.types.all())
     user_ids = set()
 
     for s in selections:
@@ -40,18 +41,19 @@ def get_users_for_ad(ad):
             for letter in letters_list:
                 letter_filter |= Q(company_name__istartswith=letter)
 
-        qs = list(
-            User.objects.filter(
-                q,
-                district__in=districts
-            ).filter(letter_filter).values_list("id", flat=True)
-        )
-
         limit = s.total_companies
 
-        if len(qs) > limit:
-            qs = qs[:limit]
+        qs = User.objects.filter(
+            q,
+            district__in=districts,
+            activate_types__in=types
+        )
 
-        user_ids.update(qs)
+        if letter_filter:
+            qs = qs.filter(letter_filter)
+
+        qs = qs.distinct()[:limit].values_list("id", flat=True)
+
+        user_ids.update(list(qs))
 
     return User.objects.filter(id__in=user_ids)

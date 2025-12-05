@@ -1,9 +1,10 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
-from rest_framework.permissions import IsAdminUser
-from rest_framework.viewsets import ReadOnlyModelViewSet
-from core.apps.accounts.choices.user import RoleChoice
+from core.apps.main.choices.payment_status import PaymentsStatusChoice
+from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins
 from core.apps.main.models import AdModel
+from core.apps.main.permissions import ConfirmationAdsPermission
 from core.apps.main.serializers.confirmation_ads import (
     UpdateConfirmationAdsSerializer,
     ListConfirmationAdsSerializer,
@@ -12,10 +13,11 @@ from core.apps.main.serializers.confirmation_ads import (
 
 
 @extend_schema(tags=["Confirmation Ads"])
-class ConfirmationAdsView(BaseViewSetMixin, ReadOnlyModelViewSet):
-    queryset = AdModel.objects.filter(status="PAID")
+class ConfirmationAdsView(BaseViewSetMixin, ModelViewSet):
+    queryset = AdModel.objects.filter(status=PaymentsStatusChoice.PAID)
     serializer_class = ListConfirmationAdsSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [ConfirmationAdsPermission]
+    http_method_names = ["get", "patch", "head", "options"]
 
     action_permission_classes = {}
     action_serializer_class = {
