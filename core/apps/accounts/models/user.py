@@ -32,6 +32,7 @@ class User(auth_models.AbstractUser):
         default=PersonTypeChoice.INDIVIDUAL,
 
     )
+    company_image = models.ImageField(upload_to="company_images/", null=True, blank=True)
     activate_types = models.ManyToManyField(CategoryModel, blank=True)
     USERNAME_FIELD = "phone"
     objects = UserManager()

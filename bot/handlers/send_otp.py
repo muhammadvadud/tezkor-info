@@ -78,6 +78,7 @@ async def check_phone_number(message: types.Message, state: FSMContext):
             await message.answer(
                 text=text,
                 parse_mode="MarkdownV2",
+                reply_markup=remove_kb
             )
             await state.clear()
         else:

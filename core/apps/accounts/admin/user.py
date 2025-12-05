@@ -40,6 +40,7 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
                     "user_permissions",
                     "role",
                     "user_tg_ids",
+                    "company_image",
                 ),
             },
         ),

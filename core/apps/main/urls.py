@@ -10,10 +10,12 @@ from .views import (
     MyadsView,
     PriceCalculationAPIView,
     ProductServiceView,
-    ConfirmationAdsView
+    ConfirmationAdsView,
+    BusinessAboutView,
 )
 
 router = DefaultRouter()
+router.register("business-about", BusinessAboutView, basename="business-about")
 router.register("confirmation-ads", ConfirmationAdsView, basename="confirmation-ads")
 router.register("dashboard-ads", DashboardAdsView, basename="DashboardAds")
 router.register("my-ads", MyadsView, basename="my-ads")
