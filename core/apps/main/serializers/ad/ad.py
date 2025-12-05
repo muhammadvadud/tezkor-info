@@ -49,6 +49,7 @@ class BaseAdSerializer(serializers.ModelSerializer):
             "creator",
             "files",
             "company_selections",
+            "phone_number",
         ]
 
 
@@ -73,6 +74,7 @@ class CreateAdSerializer(BaseAdSerializer):
             "files",
             "types",
             "total_price",
+            "phone_number",
             "company_selections",
         ]
         extra_kwargs = {

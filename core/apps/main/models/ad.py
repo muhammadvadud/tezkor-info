@@ -15,6 +15,7 @@ class AdModel(AbstractBaseModel):
     total_view_count = models.PositiveIntegerField(verbose_name=_("view count"), default=0)
     types = models.ManyToManyField("main.CategoryModel", verbose_name=_("types"))
     total_price = models.BigIntegerField(verbose_name=_("total price"), default=0)
+    phone_number = models.CharField(verbose_name=_("phone number"), max_length=255)
     payments_type = models.CharField(max_length=255, choices=PaymentsTypeChoice, default=PaymentsTypeChoice.OTHER,
                                      verbose_name=_("payments type"))
     company_selections = models.ManyToManyField("main.CompanySelectionModel", verbose_name=_("company selections"))
