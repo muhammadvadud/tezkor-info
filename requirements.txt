@@ -47,6 +47,7 @@ payme-pkg==3.0.28
 pycountry
 aiogram==3.22.0
 watchfiles
+reportlab
 # !NOTE: on-websocket
 # websockets
 # channels-redis

@@ -23,6 +23,7 @@ class AdModel(AbstractBaseModel):
                               default=PaymentsStatusChoice.PENDING)
     sent_to = models.ManyToManyField("accounts.User", verbose_name=_("sent to"), related_name="received_ads",
                                      blank=True)
+    pdf_path = models.CharField(verbose_name=_("path"), max_length=255, blank=True, null=True)
 
     def __str__(self):
         return str(self.pk)
