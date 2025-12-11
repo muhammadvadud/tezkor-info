@@ -17,6 +17,7 @@ def get_users_for_ad(ad):
         try:
             country = Country.objects.get(name__iexact=s.country)
         except Country.DoesNotExist:
+            print("Country not found")
             continue
 
         if s.region.lower() == "all":
@@ -25,6 +26,7 @@ def get_users_for_ad(ad):
             try:
                 regions = [Region.objects.get(name__iexact=s.region, country=country)]
             except Region.DoesNotExist:
+                print("Region not found")
                 continue
 
         if s.district.lower() == "all":
@@ -33,6 +35,7 @@ def get_users_for_ad(ad):
             try:
                 districts = [District.objects.get(name__iexact=s.district, region__in=regions)]
             except District.DoesNotExist:
+                print("District not found")
                 continue
 
         letter_filter = Q()

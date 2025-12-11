@@ -9,7 +9,7 @@ from core.apps.main.choices import PaymentsTypeChoice, PaymentsStatusChoice
 
 
 class AdModel(AbstractBaseModel):
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="created_by", on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_("name"), max_length=255)
     description = models.TextField(verbose_name=_("description"))
     total_view_count = models.PositiveIntegerField(verbose_name=_("view count"), default=0)
@@ -21,6 +21,8 @@ class AdModel(AbstractBaseModel):
     company_selections = models.ManyToManyField("main.CompanySelectionModel", verbose_name=_("company selections"))
     status = models.CharField(max_length=255, verbose_name=_("status"), choices=PaymentsStatusChoice,
                               default=PaymentsStatusChoice.PENDING)
+    sent_to = models.ManyToManyField("accounts.User", verbose_name=_("sent to"), related_name="received_ads",
+                                     blank=True)
 
     def __str__(self):
         return str(self.pk)
