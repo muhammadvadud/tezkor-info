@@ -24,6 +24,7 @@ class AdFilesSerializer(serializers.ModelSerializer):
 class BaseMyadsSerializer(serializers.ModelSerializer):
     files = AdFilesSerializer(many=True, read_only=True)
     types = AdTypesSerializer(many=True, read_only=True)
+    letters = serializers.SerializerMethodField()
 
     class Meta:
         model = AdModel
@@ -35,7 +36,21 @@ class BaseMyadsSerializer(serializers.ModelSerializer):
             "files",
             "status",
             "types",
+            "letters",
+            "total_price",
+            "phone_number",
+            "payments_type",
         ]
+
+    def get_letters(self, obj):
+        cls = obj.company_selections.all()
+        letters = []
+
+        for l in cls:
+            if l.letters not in letters:
+                letters.append(l.letters)
+
+        return letters
 
 
 class ListMyadsSerializer(BaseMyadsSerializer):
