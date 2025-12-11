@@ -48,8 +48,6 @@ def sms_code(test_user):
 def test_reg_view(api_client):
     data = {
         "phone": "998999999991",
-        "first_name": "John",
-        "last_name": "Doe",
         "password": "password",
         "person_type": PersonTypeChoice.INDIVIDUAL,
     }

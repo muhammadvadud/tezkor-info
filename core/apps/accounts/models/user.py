@@ -8,6 +8,9 @@ from core.apps.accounts.models.tg_ids import UserTgIds
 
 
 class User(auth_models.AbstractUser):
+    first_name = models.CharField(max_length=150, blank=True, null=True)
+    last_name = models.CharField(max_length=150, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=255, unique=True)
     username = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
