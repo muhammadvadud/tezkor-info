@@ -25,6 +25,7 @@ class BaseMyadsSerializer(serializers.ModelSerializer):
     files = AdFilesSerializer(many=True, read_only=True)
     types = AdTypesSerializer(many=True, read_only=True)
     letters = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
 
     class Meta:
         model = AdModel
@@ -40,6 +41,8 @@ class BaseMyadsSerializer(serializers.ModelSerializer):
             "total_price",
             "phone_number",
             "payments_type",
+            "created_at",
+            "username",
         ]
 
     def get_letters(self, obj):
@@ -51,6 +54,9 @@ class BaseMyadsSerializer(serializers.ModelSerializer):
                 letters.append(l.letters)
 
         return letters
+
+    def get_username(self, obj):
+        return f"{obj.created_by.first_name} {obj.created_by.last_name}"
 
 
 class ListMyadsSerializer(BaseMyadsSerializer):
