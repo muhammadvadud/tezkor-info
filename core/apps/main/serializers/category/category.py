@@ -15,6 +15,7 @@ class ListCategoryTreeSerializer(serializers.ModelSerializer):
             'level',
             'is_leaf',
             'children',
+            'icon_name'
 
         ]
 
@@ -34,6 +35,7 @@ class BaseCategorySerializer(serializers.ModelSerializer):
             'code',
             'level',
             'is_leaf',
+            'icon_name',
         ]
 
 

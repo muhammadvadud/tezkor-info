@@ -9,6 +9,7 @@ class AdTypesSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            "icon_name",
         ]
 
 

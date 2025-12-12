@@ -12,6 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = CategoryModel
         fields = [
             "name",
+            "icon_name",
         ]
 
 
