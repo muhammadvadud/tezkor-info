@@ -2,14 +2,14 @@ from calendar import month
 
 from django_core.models import AbstractBaseModel
 from model_bakery import baker
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.apps.main.choices import PaymentsTypeChoice, PaymentsStatusChoice
 
 
 class AdModel(AbstractBaseModel):
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="created_by", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("accounts.User", related_name="created_by", on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_("name"), max_length=255)
     description = models.TextField(verbose_name=_("description"))
     total_view_count = models.PositiveIntegerField(verbose_name=_("view count"), default=0)

@@ -14,7 +14,6 @@ class AdView(BaseViewSetMixin, ModelViewSet):
     serializer_class = ListAdSerializer
     permission_classes = [AdPermission]
     http_method_names = ["get", "post", "head", "options"]
-
     action_permission_classes = {}
     action_serializer_class = {
         "list": ListAdSerializer,

@@ -8,7 +8,7 @@ from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=["ad"])
-class GetPdfViewSet(viewsets.ModelViewSet):
+class GetPdfViewSet(viewsets.GenericViewSet):
     queryset = AdModel.objects.all()
     serializer_class = GetPDFSerializer
     permission_classes = [permissions.IsAuthenticated]
