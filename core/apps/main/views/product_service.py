@@ -28,7 +28,7 @@ class ProductServiceView(BaseViewSetMixin, ModelViewSet):
     permission_classes = [ProductServicePermission]
     http_method_names = ["get", "post", "patch", "delete", "head", "options"]
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filter_class = ProductServiceFilter
+    filterset_class = ProductServiceFilter
     search_fields = ["title", "description", "company__company_name", "category__name"]
     action_permission_classes = {}
     action_serializer_class = {
