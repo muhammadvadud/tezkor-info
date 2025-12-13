@@ -31,6 +31,7 @@ class CountryAdmin(ModelAdmin):
 
 @admin.register(UserTgIds)
 class UserTgIdsAdmin(ModelAdmin):
+    search_fields = ["id"]
     list_display = (
         "id",
         "__str__",
