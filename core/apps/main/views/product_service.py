@@ -1,5 +1,7 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
+
+from ..filters import ProductServiceFilter
 from ..permissions.product_service import ProductServicePermission
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -26,6 +28,7 @@ class ProductServiceView(BaseViewSetMixin, ModelViewSet):
     permission_classes = [ProductServicePermission]
     http_method_names = ["get", "post", "patch", "delete", "head", "options"]
     filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_class = ProductServiceFilter
     search_fields = ["title", "description", "company__company_name", "category__name"]
     action_permission_classes = {}
     action_serializer_class = {
