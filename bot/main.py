@@ -6,6 +6,7 @@ from signal import signal, SIGINT, SIGTERM
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 sys.path.insert(0, '/app')
+
 try:
     import django
 
@@ -37,6 +38,26 @@ if not BOT_TOKEN:
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
+
+
+async def on_startup():
+    """Bot ishga tushganda"""
+    from django.db import connections
+
+    for conn in connections.all():
+        conn.close()
+
+    logger.info("✅ Database connectionlar tozalandi")
+
+
+async def on_shutdown():
+    """Bot to'xtaganda"""
+    from django.db import connections
+
+    for conn in connections.all():
+        conn.close()
+
+    logger.info("✅ Database connectionlar yopildi")
 
 
 @dp.message(CommandStart(deep_link=True))
@@ -87,13 +108,22 @@ Biznesingiz haqida maqsadli auditoriyaga Telegram orqali to'g'ridan-to'g'ri xaba
 
 async def shutdown():
     logger.info("🛑 Bot to'xtatilmoqda...")
+
+    # Database connectionlarni yopish
+    await on_shutdown()
+
+    # Bot sessionni yopish
     await bot.session.close()
+
     logger.info("✅ Bot to'xtatildi")
 
 
 async def main():
     logger.info("🚀 Bot ishga tushmoqda...")
     logger.info(f"🔑 Token: {BOT_TOKEN[:10]}...")
+
+    dp.startup.register(on_startup)
+    dp.shutdown.register(on_shutdown)
 
     dp.include_router(send_otp_router)
 

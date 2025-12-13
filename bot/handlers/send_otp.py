@@ -36,11 +36,17 @@ async def safe_db_call(func, *args, **kwargs):
     """
     Atomik tranzaksiya bilan database operatsiyalari
     """
+    connection = None
     try:
+        # Eski connectionlarni yopish
         await sync_to_async(close_old_connections)()
 
         @sync_to_async
         def execute_in_transaction():
+            from django.db import connection as db_conn
+            nonlocal connection
+            connection = db_conn
+
             with transaction.atomic():
                 return func(*args, **kwargs)
 
@@ -51,6 +57,9 @@ async def safe_db_call(func, *args, **kwargs):
         logger.error(f"Database xatolik: {e}", exc_info=True)
         raise
     finally:
+        # Connection'ni majburiy yopish
+        if connection and not connection.closed:
+            await sync_to_async(connection.close)()
         await sync_to_async(close_old_connections)()
 
 
@@ -70,16 +79,31 @@ async def check_phone_number(message: types.Message, state: FSMContext):
     phone_number = message.contact.phone_number.lstrip('+')
     logger.info(f"📞 Telefon raqam qabul qilindi: {phone_number}")
 
+    remove_kb = ReplyKeyboardRemove()
+
     try:
         from core.services.send_otp_bot import get_or_return_sms_code
+        from django.db import connection
 
         logger.info(f"🔍 SMS kod tekshirilmoqda: {phone_number}")
 
-        check = await safe_db_call(get_or_return_sms_code, phone_number)
+        # Connection'larni tozalash
+        await sync_to_async(close_old_connections)()
+
+        # SMS kodni olish
+        @sync_to_async
+        def get_code():
+            try:
+                with transaction.atomic():
+                    return get_or_return_sms_code(phone_number)
+            finally:
+                # Connection'ni yopish
+                if not connection.closed:
+                    connection.close()
+
+        check = await get_code()
 
         logger.info(f"✅ Natija: {check} (type: {type(check)})")
-
-        remove_kb = ReplyKeyboardRemove()
 
         if check and check is not False:
             text = f"SMS kod:||`{check}`||"
@@ -88,21 +112,24 @@ async def check_phone_number(message: types.Message, state: FSMContext):
                 parse_mode="MarkdownV2",
                 reply_markup=remove_kb
             )
-            await state.clear()
         else:
             await message.answer(
                 "❌ Uzr, sizga hech qanday kod yuborilmagan!",
                 reply_markup=remove_kb
             )
-            await state.clear()
 
     except ImportError as e:
         logger.error(f"❌ Import xatosi: {e}")
-        await message.answer(f"⚠️ Xatolik: Funksiya topilmadi\n{e}")
+        await message.answer(f"⚠️ Xatolik: Funksiya topilmadi\n{e}", reply_markup=remove_kb)
 
     except Exception as e:
         logger.error(f"❌ Xatolik yuz berdi: {e}", exc_info=True)
         await message.answer(
             f"⚠️ Xatolik yuz berdi:\n{str(e)}",
-            reply_markup=ReplyKeyboardRemove()
+            reply_markup=remove_kb
         )
+
+    finally:
+        # Har holda state'ni tozalash va connectionlarni yopish
+        await state.clear()
+        await sync_to_async(close_old_connections)()
