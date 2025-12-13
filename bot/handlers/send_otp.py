@@ -29,18 +29,26 @@ async def start_welcome_flow(message: types.Message, state: FSMContext):
     await message.answer(WELCOME_TEXT, reply_markup=contact_keyboard)
 
 
+from django.db import transaction
+
+
 async def safe_db_call(func, *args, **kwargs):
     """
-    Database operatsiyalarini asinxron kontekstda xavfsiz bajarish
+    Atomik tranzaksiya bilan database operatsiyalari
     """
     try:
         await sync_to_async(close_old_connections)()
 
-        result = await sync_to_async(func)(*args, **kwargs)
+        @sync_to_async
+        def execute_in_transaction():
+            with transaction.atomic():
+                return func(*args, **kwargs)
 
+        result = await execute_in_transaction()
         return result
+
     except Exception as e:
-        logger.error(f"Database operatsiyasida xatolik: {e}", exc_info=True)
+        logger.error(f"Database xatolik: {e}", exc_info=True)
         raise
     finally:
         await sync_to_async(close_old_connections)()
