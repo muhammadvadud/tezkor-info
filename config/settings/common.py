@@ -39,19 +39,19 @@ PASSWORD_HASHERS = [
 ]
 
 INSTALLED_APPS = [
-    "modeltranslation",
-    "unfold",
-    "unfold.contrib.filters",
-    "unfold.contrib.forms",
-    "unfold.contrib.guardian",
-    "unfold.contrib.simple_history",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-] + APPS
+                     "modeltranslation",
+                     "unfold",
+                     "unfold.contrib.filters",
+                     "unfold.contrib.forms",
+                     "unfold.contrib.guardian",
+                     "unfold.contrib.simple_history",
+                     "django.contrib.admin",
+                     "django.contrib.auth",
+                     "django.contrib.contenttypes",
+                     "django.contrib.sessions",
+                     "django.contrib.messages",
+                     "django.contrib.staticfiles",
+                 ] + APPS
 
 MODULES = [app for app in MODULES if isinstance(app, str)]
 
@@ -74,8 +74,8 @@ if env.bool("SILK_ENEBLED", False):
         "silk.middleware.SilkyMiddleware",
     ]
 
-
 ROOT_URLCONF = "config.urls"
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 TEMPLATES = [
     {
@@ -121,7 +121,6 @@ DATE_FORMAT = "d.m.y"
 TIME_FORMAT = "H:i:s"
 DATE_INPUT_FORMATS = ["%d.%m.%Y", "%Y.%d.%m", "%Y.%d.%m"]
 
-
 SEEDERS = ["core.apps.accounts.seeder.UserSeeder"]
 
 STATICFILES_DIRS = [
@@ -157,8 +156,6 @@ SILKY_PYTHON_PROFILER = True
 
 MODELTRANSLATION_LANGUAGES = ("uz", "ru", "en")
 MODELTRANSLATION_DEFAULT_LANGUAGE = "uz"
-
-
 
 JST_LANGUAGES = [
     {

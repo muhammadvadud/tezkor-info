@@ -6,4 +6,5 @@ REST_FRAMEWORK: Union[Any] = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "django_core.paginations.CustomPagination",
     "PAGE_SIZE": 10,
+
 }
