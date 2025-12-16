@@ -8,9 +8,6 @@ class ProductServicePermission(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        if not request.user.is_authenticated:
-            return False
-
         if request.method == "POST":
             return request.user.person_type == PersonTypeChoice.LEGAL_ENTITY
 
@@ -19,9 +16,6 @@ class ProductServicePermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        if not request.user.is_authenticated:
-            return False
 
         if request.method in ["PATCH", "PUT", "DELETE"]:
             return (
