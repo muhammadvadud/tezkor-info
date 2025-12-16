@@ -2,7 +2,7 @@ from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
 from core.apps.main.permissions import AdPermission
 from rest_framework.viewsets import ReadOnlyModelViewSet
-
+from rest_framework.exceptions import ValidationError
 from core.apps.main.models import AdModel
 from core.apps.main.serializers.my_ads import CreateMyadsSerializer, ListMyadsSerializer, RetrieveMyadsSerializer
 
@@ -22,4 +22,6 @@ class MyadsView(BaseViewSetMixin, ReadOnlyModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return AdModel.objects.filter(created_by=user)
+        if not user.is_authenticated:
+            raise ValidationError("You must be logged in to view this page.")
+        return AdModel.objects.filter(created_by=user).order_by("-id")
