@@ -2,17 +2,20 @@ import os
 import sys
 import asyncio
 import logging
-from signal import signal, SIGINT, SIGTERM
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-sys.path.insert(0, '/app')
 
 try:
     import django
 
     django.setup()
+    logging.info("✅ Django muvaffaqiyatli ishga tushdi")
 except Exception as e:
-    print(f"❌ Django setup xatosi: {e}")
+    logging.error(f"❌ Django setup xatosi: {e}")
     sys.exit(1)
 
 logging.basicConfig(
@@ -23,11 +26,10 @@ logger = logging.getLogger(__name__)
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from aiogram.filters import Command, CommandStart, CommandObject
+from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 
 from bot.handlers.send_otp import start_welcome_flow
-from bot.handlers.send_otp import router as send_otp_router
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 WEB_APP_URL = os.getenv("WEB_APP_URL")
@@ -42,106 +44,107 @@ dp = Dispatcher()
 
 async def on_startup():
     """Bot ishga tushganda"""
-    from django.db import connections
+    try:
+        from django.db import connections
+        for conn in connections.all():
+            conn.close()
+        logger.info("✅ Database connectionlar tozalandi")
 
-    for conn in connections.all():
-        conn.close()
-
-    logger.info("✅ Database connectionlar tozalandi")
+        me = await bot.get_me()
+        logger.info(f"✅ Bot ishga tushdi: @{me.username}")
+    except Exception as e:
+        logger.error(f"❌ Startup xatosi: {e}")
 
 
 async def on_shutdown():
     """Bot to'xtaganda"""
-    from django.db import connections
-
-    for conn in connections.all():
-        conn.close()
-
-    logger.info("✅ Database connectionlar yopildi")
-
-
-@dp.message(CommandStart(deep_link=True))
-async def handle_deep_link(message: types.Message, command: CommandObject, state: FSMContext):
-    raw_payload = command.args
-    if raw_payload == "register":
-        await start_welcome_flow(message, state)
-    else:
-        await start_handler(message)
+    try:
+        from django.db import connections
+        for conn in connections.all():
+            conn.close()
+        logger.info("✅ Database connectionlar yopildi")
+    except Exception as e:
+        logger.error(f"❌ Shutdown xatosi: {e}")
 
 
-@dp.message(Command("start"))
-async def start_handler(message: types.Message):
-    if not WEB_APP_URL:
-        logger.warning("⚠️ WEB_APP_URL o'rnatilmagan")
-        await message.answer("Kechirasiz, vaqtinchalik xizmat mavjud emas.")
-        return
+@dp.message(CommandStart())
+async def start_handler(message: types.Message, state: FSMContext):
+    try:
+        args = message.text.split(maxsplit=1)
+        payload = args[1] if len(args) > 1 else None
 
-    web_app_info = WebAppInfo(url=WEB_APP_URL)
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="Platformaga kirish", web_app=web_app_info)],
-        ]
-    )
+        if payload and payload.startswith("register_"):
+            await start_welcome_flow(message, state, payload)
+            return
+        if not WEB_APP_URL:
+            await message.answer("Kechirasiz, vaqtinchalik xizmat mavjud emas.")
+            return
 
-    await message.answer(
-        """Hurmatli tadbirkor, biznes egalari va investorlar!
+        web_app_info = WebAppInfo(url=WEB_APP_URL)
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(
+                    text="🚀 Platformaga kirish",
+                    web_app=web_app_info
+                )]
+            ]
+        )
 
-Sizlar uchun O'zbekiston va xalqaro Biznes jamoasini birlashtiradigan innovatsion platforma taqdim etilmoqda — INFO TARGET GLOBALNET PORTAL
+        welcome_text = """🎯 Hurmatli tadbirkor, biznes egalari va investorlar!
 
-🚀 INFO TARGET GLOBALNET PORTAL 
+Sizlar uchun O'zbekiston va xalqaro Biznes jamoasini birlashtiradigan innovatsion platforma taqdim etilmoqda — INFO TARGET GLOBALNET PORTAL 🚀
 
-Platformaning vazifasi: butun jaxon bo'ylab kompaniyalar rahbarlari bilan bevosita bog'lash.
+📊 Platformaning vazifasi: butun jaxon bo'ylab kompaniyalar rahbarlari bilan bevosita bog'lash.
 
-Biznesingiz haqida maqsadli auditoriyaga Telegram orqali to'g'ridan-to'g'ri xabar yuborish imkoniyati yaratiladi.
+✨ Platformaning Afzalliklari:
+✔️ Aniq maqsadli auditoriya
+✔️ Bevosita aloqa
+✔️ Xalqaro kompaniyalar bazasi
+✔️ Har xil formatlar
+✔️ Express yetkazish
+✔️ Shaffof analitika
+"""
 
-🎯 Platformaning Afzalliklari
+        await message.answer(welcome_text, reply_markup=keyboard)
 
-✔️ Aniq maqsadli auditoriya — rahbarlar, direktorlar, tadbirkorlar va top-menejerlar
-✔️ Bevosita aloqa — reklama xabarlari Telegramdagi shaxsiy akkauntlarga yetkaziladi
-✔️ Xalqaro kompaniyalar bazasi O'zbekiston va chet davlatlari
-✔️ Har xil formatlar — poster, video, prezentatsiya, hujjat
-✔️ Express yetkazish — vaqt va pulni tejash
-✔️ Shaffof analitika va real natijalar""",
-        reply_markup=keyboard
-    )
+    except Exception as e:
 
-
-async def shutdown():
-    logger.info("🛑 Bot to'xtatilmoqda...")
-
-    # Database connectionlarni yopish
-    await on_shutdown()
-
-    # Bot sessionni yopish
-    await bot.session.close()
-
-    logger.info("✅ Bot to'xtatildi")
+        logger.error(f"❌ Start handler xatosi: {e}", exc_info=True)
+        await message.answer(f"❌ Xatolik yuz berdi.{e}")
 
 
 async def main():
+    """Asosiy funksiya"""
     logger.info("🚀 Bot ishga tushmoqda...")
     logger.info(f"🔑 Token: {BOT_TOKEN[:10]}...")
 
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    dp.include_router(send_otp_router)
-
     try:
-        await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
-    except (KeyboardInterrupt, SystemExit):
-        logger.info("⚠️ Bot to'xtatildi")
+        logger.info("📡 Polling boshlanmoqda...")
+        await dp.start_polling(
+            bot,
+            allowed_updates=dp.resolve_used_update_types(),
+            drop_pending_updates=True
+        )
+    except KeyboardInterrupt:
+        logger.info("⚠️ Bot Ctrl+C orqali to'xtatildi")
     except Exception as e:
-        logger.error(f"❌ Xatolik: {e}", exc_info=True)
+        logger.error(f"❌ Polling xatosi: {e}", exc_info=True)
     finally:
-        await shutdown()
+        # Cleanup
+        logger.info("🛑 Bot to'xtatilmoqda...")
+        await on_shutdown()
+        await bot.session.close()
+        logger.info("✅ Bot to'xtatildi")
 
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        logger.info("👋 Ctrl+C orqali to'xtatildi")
+        logger.info("👋 Dastur to'xtatildi")
     except Exception as e:
         logger.error(f"❌ Fatal error: {e}", exc_info=True)
         sys.exit(1)
