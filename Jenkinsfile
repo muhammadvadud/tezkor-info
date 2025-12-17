@@ -4,6 +4,7 @@ pipeline {
     environment {
         PROD_ENV     = "/opt/env/.env.tezkor-info"
         IMAGE_NAME   = "tezkor-info"
+        BOT_IMAGE    = "tezkor-bot"
         TEST_TAG     = "test"
         PROD_TAG     = "latest"
         CONTAINER_DB = "tezkor-info_db_test"
@@ -52,20 +53,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         sed -i 's|image: ${DOCKER_USER}/${IMAGE_NAME}:.*|image: ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|' stack.yaml
-                        sed -i 's|image: ${DOCKER_USER}/tezkor-bot:.*|image: ${DOCKER_USER}/tezkor-bot:${BUILD_NUMBER}|' stack.yaml
+                        sed -i 's|image: ${DOCKER_USER}/${BOT_IMAGE}:.*|image: ${DOCKER_USER}/${BOT_IMAGE}:${BUILD_NUMBER}|' stack.yaml
                         sed -i 's/return HttpResponse("OK.*"/return HttpResponse("OK: #${GIT_COMMIT}"/' config/urls.py
                     """
-                        // git config --global user.email "admin@jscorp.uz"
-                        // git config --global user.name "Jenkins"
-                        // if ! git diff --quiet stack.yaml; then
-                        //     git add stack.yaml
-                        //     git commit -m "feat(swarm) Update image tag to ${BUILD_NUMBER} [ci skip]"
-                        //     git push origin main
-                        // else
-                        //     echo "No changes in stack.yaml"
-                        // fi
                 }
-
             }
         }
         stage('Build Image') {
@@ -81,11 +72,10 @@ pipeline {
                 '''
                 sh """
                     docker build -t ${IMAGE_NAME}:${PROD_TAG} -f ./docker/Dockerfile.web .
-                    docker build -t tezkor-bot:latest -f ./docker/Dockerfile.bot .
+                    docker build -t ${BOT_IMAGE}:${PROD_TAG} -f ./docker/Dockerfile.bot .
                 """
             }
         }
-
 
         stage('Start Test DB') {
             steps {
@@ -129,12 +119,18 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                         echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+
+                        # Tag va push Web image
                         docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
-                        docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/tezkor-bot:${PROD_TAG}
-                        docker tag tezkor-bot:latest ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
+                        docker tag ${IMAGE_NAME}:${PROD_TAG} ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
                         docker push ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
                         docker push ${DOCKER_USER}/${IMAGE_NAME}:${PROD_TAG}
-                        docker push ${DOCKER_USER}/tezkor-bot:${PROD_TAG}
+
+                        # Tag va push Bot image
+                        docker tag ${BOT_IMAGE}:${PROD_TAG} ${DOCKER_USER}/${BOT_IMAGE}:${BUILD_NUMBER}
+                        docker tag ${BOT_IMAGE}:${PROD_TAG} ${DOCKER_USER}/${BOT_IMAGE}:${PROD_TAG}
+                        docker push ${DOCKER_USER}/${BOT_IMAGE}:${BUILD_NUMBER}
+                        docker push ${DOCKER_USER}/${BOT_IMAGE}:${PROD_TAG}
                     '''
                 }
             }
@@ -146,12 +142,12 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
-                       docker stack deploy -c stack.yaml ${STACK_NAME}
+                       docker stack deploy -c stack.yaml ${STACK_NAME} --with-registry-auth
                     '''
                 }
             }
         }
- 
+
     }
 
     post {
