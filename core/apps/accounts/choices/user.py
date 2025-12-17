@@ -17,5 +17,5 @@ class PersonTypeChoice(models.TextChoices):
     Person Type Choice
     """
 
-    INDIVIDUAL = "individual", _("Jismoniy shaxs")
+    EMPLOYEE = "employee", _("Xodim")
     LEGAL_ENTITY = "legal_entity", _("Yuridik shaxs")

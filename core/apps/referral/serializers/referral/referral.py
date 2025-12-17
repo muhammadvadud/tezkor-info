@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from core.apps.accounts.choices.user import PersonTypeChoice
 from core.apps.referral.models import ReferralModel
 import random
 import string
@@ -44,7 +44,10 @@ class CreateReferralSerializer(BaseReferralSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['user'] = self.context["request"].user
+        user = self.context["request"].user
+        if user.person_type == PersonTypeChoice.EMPLOYEE:
+            user = user.parent
+        validated_data['user'] = user
         code = validated_data.get('code')
         if code:
             if code != "generate":

@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from core.apps.main.choices import PaymentsTypeChoice
 from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel, CategoryModel
-from core.apps.main.serializers.activate_types import ListActivateTypesSerializer
 
 
 class OwnerInfoSerializer(serializers.ModelSerializer):

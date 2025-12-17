@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from core.apps.accounts.choices import PersonTypeChoice
 from core.apps.main.models import ProductServiceModel, ProductServiceFilesModel
 from django.contrib.auth import get_user_model
 from core.apps.accounts.models.region import Country
@@ -85,8 +86,11 @@ class CreateProductServiceSerializer(BaseProductServiceSerializer):
     def create(self, validated_data):
         categories = validated_data.pop("category", [])
         files = validated_data.pop("files", [])
-
-        validated_data['company'] = self.context['request'].user
+        user = self.context['request'].user
+        if user.person_type == PersonTypeChoice.LEGAL_ENTITY:
+            validated_data['company'] = user
+        else:
+            validated_data['company'] = user.parent
 
         product_service = ProductServiceModel.objects.create(**validated_data)
 

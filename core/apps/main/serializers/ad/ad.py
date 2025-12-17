@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+
+from core.apps.accounts.choices import PersonTypeChoice
 from core.apps.main.choices import PaymentsTypeChoice
 from core.apps.main.models import AdModel, AdFilesModel, CompanySelectionModel, CategoryModel
-from core.apps.main.serializers.activate_types import ListActivateTypesSerializer
 
 
 class OwnerInfoSerializer(serializers.ModelSerializer):
@@ -86,6 +87,8 @@ class CreateAdSerializer(BaseAdSerializer):
         files = validated_data.pop("files", [])
         types = validated_data.pop("types", [])
         company_selections = validated_data.pop("company_selections", [])
+        if user.person_type == PersonTypeChoice.EMPLOYEE:
+            user = user.parent
         validated_data["created_by"] = user
         ad = AdModel.objects.create(**validated_data)
         if files:

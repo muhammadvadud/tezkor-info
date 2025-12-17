@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
+from core.apps.accounts.choices import PersonTypeChoice
 from core.apps.main.models import AdModel
 from django.shortcuts import get_object_or_404
 from core.services.pay_link import get_payme_url
@@ -14,6 +16,8 @@ class PaymentsLinkSerializer(serializers.Serializer):
     def validate(self, attrs):
         user = self.context.get("user")
         ad_id = self.context.get("ad_id")
+        if user.person_type == PersonTypeChoice.EMPLOYEE:
+            user = user.parent
 
         try:
             ad = AdModel.objects.get(id=ad_id)
@@ -49,6 +53,8 @@ class PaymentsLinkSerializer(serializers.Serializer):
             if ad.status != PaymentsStatusChoice.PENDING:
                 raise ValidationError({"ad": "To'lov amalga oshirilgan!"})
             user = self.context.get("user")
+            if user.person_type == PersonTypeChoice.EMPLOYEE:
+                user = user.parent
             pay_referral = referral_payment_service(user, ad)
 
             return pay_referral

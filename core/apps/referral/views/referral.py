@@ -2,7 +2,7 @@ from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-
+from core.apps.accounts.choices.user import PersonTypeChoice
 from core.apps.referral.models import ReferralModel
 from core.apps.referral.serializers.referral import (
     CreateReferralSerializer,
@@ -26,4 +26,9 @@ class ReferralView(BaseViewSetMixin, ModelViewSet):
     }
 
     def get_queryset(self):
-        return ReferralModel.objects.filter(user=self.request.user)
+        user = self.request.user
+        if user.person_type == PersonTypeChoice.LEGAL_ENTITY:
+            return ReferralModel.objects.filter(user=self.request.user)
+        elif user.person_type == PersonTypeChoice.EMPLOYEE:
+            return ReferralModel.objects.filter(user=self.request.user.parent)
+        return ReferralModel.objects.none()

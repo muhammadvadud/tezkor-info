@@ -31,7 +31,7 @@ def test_user(db):
         phone=phone,
         first_name="John",
         last_name="Doe",
-        person_type=PersonTypeChoice.INDIVIDUAL,
+        person_type=PersonTypeChoice.EMPLOYEE,
         password=password,
     )
     return user
@@ -49,7 +49,7 @@ def test_reg_view(api_client):
     data = {
         "phone": "998999999991",
         "password": "password",
-        "person_type": PersonTypeChoice.INDIVIDUAL,
+        "person_type": PersonTypeChoice.EMPLOYEE,
     }
     with patch.object(SmsService, "send_confirm", return_value=True):
         response = api_client.post(reverse("auth-register"), data=data)
