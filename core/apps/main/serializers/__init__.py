@@ -6,3 +6,4 @@ from .PriceCountry import *  # noqa
 from .product_service import *  # noqa
 from .confirmation_ads import *  # noqa
 from .business_about import *  # noqa
+from .add_employee import *  # noqa

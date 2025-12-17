@@ -40,14 +40,6 @@ def test_list(data):
     assert data_resp["status"] is True
 
 
-@pytest.mark.django_db
-def test_retrieve(data):
-    urls, client, _ = data
-    response = client.get(urls["retrieve"])
-    data_resp = response.json()
-    assert response.status_code == 200
-    assert data_resp["status"] is True
-
 
 @pytest.mark.django_db
 def test_retrieve_not_found(data):

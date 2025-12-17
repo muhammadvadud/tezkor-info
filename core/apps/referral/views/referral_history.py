@@ -20,7 +20,7 @@ class ReferralHistoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
     filterset_class = ReferralHistoryFilter
-    
+
     action_permission_classes = {}
     action_serializer_class = {
         "list": ListReferralHistorySerializer,
