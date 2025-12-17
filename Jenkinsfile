@@ -52,8 +52,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
-                        sed -i 's|image: ${DOCKER_USER}/${IMAGE_NAME}:.*|image: ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|' stack.yaml
-                        sed -i 's|image: ${DOCKER_USER}/${BOT_IMAGE}:.*|image: ${DOCKER_USER}/${BOT_IMAGE}:${BUILD_NUMBER}|' stack.yaml
+                        sed -i 's|image: jscorptech/${IMAGE_NAME}:.*|image: ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|' stack.yaml
+                        sed -i 's|image: muhammadvadud/${BOT_IMAGE}:.*|image: ${DOCKER_USER}/${BOT_IMAGE}:${BUILD_NUMBER}|' stack.yaml
                         sed -i 's/return HttpResponse("OK.*"/return HttpResponse("OK: #${GIT_COMMIT}"/' config/urls.py
                     """
                 }
