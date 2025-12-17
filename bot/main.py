@@ -2,6 +2,7 @@ import os
 import sys
 import asyncio
 import logging
+from enum import nonmember
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -72,9 +73,14 @@ async def start_handler(message: types.Message, state: FSMContext):
     try:
         args = message.text.split(maxsplit=1)
         payload = args[1] if len(args) > 1 else None
+        payload_type = None
+        if payload.startswith("register_"):
+            payload_type = "register"
+        else:
+            payload_type = "login"
 
-        if payload and payload.startswith("register_"):
-            await start_welcome_flow(message, state, payload)
+        if payload and (payload_type == "login" or payload_type == "register"):
+            await start_welcome_flow(message, state, payload, payload_type)
             return
         if not WEB_APP_URL:
             await message.answer("Kechirasiz, vaqtinchalik xizmat mavjud emas.")
