@@ -21,7 +21,7 @@ class CategoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
     filterset_class = CategoryFilter
-
+    pagination_class = None
     action_permission_classes = {}
     action_serializer_class = {
         "list": ListCategorySerializer,

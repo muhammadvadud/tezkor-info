@@ -699,3 +699,56 @@ def create_user_ids(count: int, user_ids):
         print(f"yaratildi:{_} {created.id}")
 
     return True
+
+
+from django.db import transaction
+from core.apps.main.models import CategoryModel
+from data import oked_full_data
+
+data = oked_full_data
+
+
+def load_categories(data, parent=None):
+    for index, item in enumerate(data, start=1):
+        children = item.get("children", [])
+
+        category, created = CategoryModel.objects.get_or_create(
+            code=item["code"],
+            defaults={
+                # modeltranslation
+                "name": item["names"]["uz"],
+                "name_uz": item["names"]["uz"],
+                "name_ru": item["names"]["ru"],
+                "name_en": item["names"]["en"],
+
+                "parent": parent,
+                "level": item.get("level", 1),
+                "order": index,
+                "is_leaf": not bool(children),
+            }
+        )
+
+        if not created:
+            category.name = item["names"]["uz"]
+            category.name_uz = item["names"]["uz"]
+            category.name_ru = item["names"]["ru"]
+            category.name_en = item["names"]["en"]
+
+            category.parent = parent
+            category.level = item.get("level", category.level)
+            category.order = index
+            category.is_leaf = not bool(children)
+
+            category.save(update_fields=[
+                "name",
+                "name_uz",
+                "name_ru",
+                "name_en",
+                "parent",
+                "level",
+                "order",
+                "is_leaf",
+            ])
+
+        if children:
+            load_categories(children, parent=category)
