@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -41,5 +42,6 @@ class CreateEmployeeSerializer(BaseEmployeeSerializer):
         validated_data['parent'] = self.context['request'].user
         user = get_user_model().objects.create(**validated_data)
         user.set_unusable_password()
+        user.validated_at = datetime.now()
         user.save()
         return user
