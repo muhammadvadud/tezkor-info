@@ -11,9 +11,11 @@ from .views import (
     ConfirmationAdsView,
     BusinessAboutView,
     GetPdfViewSet,
+    EmployeeView,
 )
 
 router = DefaultRouter()
+router.register("employee", EmployeeView, basename="employee")
 router.register("ad", GetPdfViewSet, basename="get-pdf")
 router.register("business-about", BusinessAboutView, basename="business-about")
 router.register("confirmation-ads", ConfirmationAdsView, basename="confirmation-ads")
