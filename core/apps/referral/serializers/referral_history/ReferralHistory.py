@@ -4,11 +4,24 @@ from core.apps.referral.models import ReferralHistoryModel
 
 
 class BaseReferralHistorySerializer(serializers.ModelSerializer):
+    ad_title = serializers.CharField(
+        source="ad.title",
+        read_only=True
+    )
+    referral_code = serializers.CharField(
+        source="referral.code",
+        read_only=True
+    )
+
     class Meta:
         model = ReferralHistoryModel
         fields = [
             "id",
             "amount",
+            "referral",
+            "referral_code",
+            "ad",
+            "ad_title"
         ]
 
 
