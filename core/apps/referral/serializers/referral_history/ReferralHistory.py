@@ -18,6 +18,7 @@ class BaseReferralHistorySerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "amount",
+            "type",
             "referral",
             "referral_code",
             "ad",
