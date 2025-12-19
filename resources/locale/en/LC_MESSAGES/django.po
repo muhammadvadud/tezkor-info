@@ -1,49 +1,586 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# English translations
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-15 16:40+0500\n"
-"PO-Revision-Date: 2024-02-09 15:09+0500\n"
-"Last-Translator:   <admin@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-12-19 20:32+0500\n"
+"PO-Revision-Date: 2025-12-19 21:10+0500\n"
+"Last-Translator: admin@gmail.com\n"
+"Language-Team: English\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: config/settings/common.py:148
+#: config/conf/navigation.py:9
+msgid "Home page"
+msgstr "Home"
+
+#: config/conf/navigation.py:16
+msgid "Auth"
+msgstr "Authentication"
+
+#: config/conf/navigation.py:20
+msgid "Users"
+msgstr "Users"
+
+#: config/conf/navigation.py:25
+msgid "Group"
+msgstr "Groups"
+
+#: config/conf/unfold.py:10
+msgid "Development"
+msgstr "Development"
+
+#: config/conf/unfold.py:12
+msgid "Production"
+msgstr "Production"
+
+#: config/settings/common.py:137
 msgid "Russia"
-msgstr ""
+msgstr "Russia"
 
-#: config/settings/common.py:149
+#: config/settings/common.py:138
 msgid "English"
-msgstr ""
+msgstr "English"
 
-#: config/settings/common.py:150
+#: config/settings/common.py:139
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbek"
 
-#: core/http/admin/index.py:20
-msgid "Custom Field"
-msgstr ""
+#: core/apps/accounts/admin/user.py:27
+msgid "Personal info"
+msgstr "Personal information"
 
-#: core/http/tasks/index.py:13
+#: core/apps/accounts/admin/user.py:33
+msgid "Permissions"
+msgstr "Permissions"
+
+#: core/apps/accounts/admin/user.py:48
+msgid "Important dates"
+msgstr "Important dates"
+
+#: core/apps/accounts/choices/user.py:10
+msgid "Superuser"
+msgstr "Superuser"
+
+#: core/apps/accounts/choices/user.py:11
+msgid "Admin"
+msgstr "Administrator"
+
+#: core/apps/accounts/choices/user.py:12
+#: core/apps/accounts/models/out_balance.py:9
+msgid "User"
+msgstr "User"
+
+#: core/apps/accounts/choices/user.py:20
+msgid "Xodim"
+msgstr "Employee"
+
+#: core/apps/accounts/choices/user.py:21
+msgid "Yuridik shaxs"
+msgstr "Legal entity"
+
+#: core/apps/accounts/models/employee_pending.py:7
+msgid "Full Name"
+msgstr "Full name"
+
+#: core/apps/accounts/models/employee_pending.py:8
+msgid "Phone Number"
+msgstr "Phone number"
+
+#: core/apps/accounts/models/employee_pending.py:9
+msgid "Stir"
+msgstr "Tax ID"
+
+#: core/apps/accounts/models/employee_pending.py:10
+msgid "TG ID"
+msgstr "Telegram ID"
+
+#: core/apps/accounts/models/out_balance.py:10
+msgid "Balance"
+msgstr "Balance"
+
+#: core/apps/accounts/models/out_balance.py:11
+#: core/apps/referral/models/referral_history.py:16
+msgid "Ad"
+msgstr "Advertisement"
+
+#: core/apps/accounts/models/out_balance.py:18
+#: core/apps/accounts/models/out_balance.py:19
+msgid "OutBalance"
+msgstr "Outgoing balance"
+
+#: core/apps/accounts/models/region.py:7
+msgid "Country name"
+msgstr "Country name"
+
+#: core/apps/accounts/models/region.py:14
+#: core/apps/accounts/models/region.py:19
+msgid "Country"
+msgstr "Country"
+
+#: core/apps/accounts/models/region.py:15
+msgid "Countries"
+msgstr "Countries"
+
+#: core/apps/accounts/models/region.py:27
+#: core/apps/accounts/models/region.py:33
+msgid "Region"
+msgstr "Region"
+
+#: core/apps/accounts/models/region.py:28
+msgid "Regions"
+msgstr "Regions"
+
+#: core/apps/accounts/models/region.py:40
+msgid "District"
+msgstr "District"
+
+#: core/apps/accounts/models/region.py:41
+msgid "Districts"
+msgstr "Districts"
+
+#: core/apps/accounts/models/tg_ids.py:7
+msgid "id"
+msgstr "ID"
+
+#: core/apps/accounts/models/tg_ids.py:14
+#: core/apps/accounts/models/tg_ids.py:15
+msgid "User TgIds"
+msgstr "User Telegram IDs"
+
+#: core/apps/accounts/serializers/auth.py:25
+msgid "Phone number already registered."
+msgstr "This phone number is already registered."
+
+#: core/apps/accounts/serializers/auth.py:51
+#: core/apps/accounts/serializers/auth.py:62
+#: core/apps/accounts/serializers/login.py:18
+msgid "User does not exist"
+msgstr "User does not exist"
+
+#: core/apps/accounts/tasks/sms.py:21
 #, python-format
 msgid "Sizning Tasdiqlash ko'dingiz: %(code)s"
-msgstr ""
+msgstr "Your verification code: %(code)s"
 
-#: resources/templates/user/home.html:18
+#: core/apps/accounts/views/auth.py:61 core/apps/accounts/views/auth.py:101
+#: core/apps/accounts/views/auth.py:125 core/apps/accounts/views/login.py:51
+#: core/apps/accounts/views/login.py:93
+#, python-format
+msgid "Sms %(phone)s raqamiga yuborildi"
+msgstr "SMS has been sent to %(phone)s"
+
+#: core/apps/accounts/views/auth.py:85
+#: core/apps/accounts/views/login.py:77
+msgid "Tasdiqlash ko'di qabul qilindi"
+msgstr "Verification code accepted"
+
+#: core/apps/accounts/views/auth.py:162
+msgid "Invalid token"
+msgstr "Invalid token"
+
+#: core/apps/accounts/views/auth.py:166
+msgid "password updated"
+msgstr "Password updated"
+
+#: core/apps/accounts/views/auth.py:191
+msgid "Malumotlar yangilandi"
+msgstr "Information updated"
+
+#: core/apps/accounts/views/auth.py:218
+msgid "invalida password"
+msgstr "Invalid password"
+
+#: core/apps/main/choices/payment_status.py:10
+msgid "Pending"
+msgstr "Pending"
+
+#: core/apps/main/choices/payment_status.py:11
+msgid "Paid"
+msgstr "Paid"
+
+#: core/apps/main/choices/payment_status.py:12
+msgid "Verified"
+msgstr "Verified"
+
+#: core/apps/main/choices/payment_status.py:13
+msgid "Canceled"
+msgstr "Canceled"
+
+#: core/apps/main/choices/payment_type.py:10
+#: core/apps/referral/models/referral_history.py:14
+#: core/apps/referral/models/referral_users.py:17
+msgid "Referral"
+msgstr "Referral"
+
+#: core/apps/main/choices/payment_type.py:11
+msgid "Payme"
+msgstr "Payme"
+
+#: core/apps/main/choices/payment_type.py:12
+msgid "Other"
+msgstr "Other"
+
+#: core/apps/main/models/PriceCountry.py:21
+msgid "PriceCountryModel"
+msgstr "Price by Country"
+
+#: core/apps/main/models/PriceCountry.py:22
+msgid "PriceCountryModels"
+msgstr "Prices by Country"
+
+#: core/apps/main/models/ad.py:13
+#: core/apps/main/models/category.py:8
+#: core/apps/main/models/notification.py:8
+msgid "name"
+msgstr "Name"
+
+#: core/apps/main/models/ad.py:14
+#: core/apps/main/models/notification.py:9
+#: core/apps/main/models/product_service.py:9
+#: core/apps/referral/models/referral.py:15
+#: core/apps/shared/models/settings.py:10
+msgid "description"
+msgstr "Description"
+
+#: core/apps/main/models/ad.py:15
+msgid "view count"
+msgstr "View count"
+
+#: core/apps/main/models/ad.py:16
+msgid "types"
+msgstr "Type"
+
+#: core/apps/main/models/ad.py:17
+msgid "total price"
+msgstr "Total price"
+
+#: core/apps/main/models/ad.py:18
+msgid "phone number"
+msgstr "Phone number"
+
+#: core/apps/main/models/ad.py:20
+msgid "payments type"
+msgstr "Payment type"
+
+#: core/apps/main/models/ad.py:21
+msgid "company selections"
+msgstr "Company selections"
+
+#: core/apps/main/models/ad.py:22
+msgid "status"
+msgstr "Status"
+
+#: core/apps/main/models/ad.py:24
+msgid "sent to"
+msgstr "Sent to"
+
+#: core/apps/main/models/ad.py:26
+msgid "path"
+msgstr "Path"
+
+#: core/apps/main/models/ad.py:37
+msgid "AdModel"
+msgstr "Advertisement"
+
+#: core/apps/main/models/ad.py:38
+msgid "AdModels"
+msgstr "Advertisements"
+
+#: core/apps/main/models/ad.py:42
+msgid "ad"
+msgstr "Advertisement"
+
+#: core/apps/main/models/ad.py:43
+#: core/apps/main/models/product_service.py:32
+msgid "file"
+msgstr "File"
+
+#: core/apps/main/models/ad.py:54
+msgid "AdFilesModel"
+msgstr "Advertisement File"
+
+#: core/apps/main/models/ad.py:55
+msgid "AdFilesModels"
+msgstr "Advertisement Files"
+
+#: core/apps/main/models/category.py:21
+msgid "icon name"
+msgstr "Icon name"
+
+#: core/apps/main/models/category.py:36
+msgid "CategoryModel"
+msgstr "Category"
+
+#: core/apps/main/models/category.py:37
+msgid "CategoryModels"
+msgstr "Categories"
+
+#: core/apps/main/models/company_selection.py:8
+msgid "continent"
+msgstr "Continent"
+
+#: core/apps/main/models/company_selection.py:9
+msgid "country"
+msgstr "Country"
+
+#: core/apps/main/models/company_selection.py:10
+msgid "region"
+msgstr "Region"
+
+#: core/apps/main/models/company_selection.py:11
+msgid "district"
+msgstr "District"
+
+#: core/apps/main/models/company_selection.py:12
+msgid "letters"
+msgstr "Letters"
+
+#: core/apps/main/models/company_selection.py:13
+msgid "total_companies"
+msgstr "Total companies"
+
+#: core/apps/main/models/company_selection.py:14
+msgid "ad_price"
+msgstr "Ad price"
+
+#: core/apps/main/models/company_selection.py:15
+msgid "total_price"
+msgstr "Total price"
+
+#: core/apps/main/models/company_selection.py:26
+msgid "CompanySelectionModel"
+msgstr "Company Selection"
+
+#: core/apps/main/models/company_selection.py:27
+msgid "CompanySelectionModels"
+msgstr "Company Selections"
+
+#: core/apps/main/models/notification.py:10
+msgid "is send"
+msgstr "Is sent"
+
+#: core/apps/main/models/notification.py:21
+msgid "NotificationModel"
+msgstr "Notification"
+
+#: core/apps/main/models/notification.py:22
+msgid "NotificationModels"
+msgstr "Notifications"
+
+#: core/apps/main/models/notification.py:26
+msgid "Notification Files"
+msgstr "Notification Files"
+
+#: core/apps/main/models/notification.py:27
+msgid "notification"
+msgstr "Notification"
+
+#: core/apps/main/models/notification.py:35
+#: core/apps/main/models/notification.py:36
+msgid "NotificationFiles"
+msgstr "Notification Files"
+
+#: core/apps/main/models/price_bracket.py:7
+#: core/apps/referral/models/referral.py:31
+msgid "min_person"
+msgstr "Minimum people"
+
+#: core/apps/main/models/price_bracket.py:8
+#: core/apps/referral/models/referral.py:32
+msgid "max_person"
+msgstr "Maximum people"
+
+#: core/apps/main/models/price_bracket.py:9
+msgid "price"
+msgstr "Price"
+
+#: core/apps/main/models/price_bracket.py:16
+#: core/apps/main/models/price_bracket.py:17
+msgid "PriceBracket"
+msgstr "Price Bracket"
+
+#: core/apps/main/models/product_service.py:8
+msgid "title"
+msgstr "Title"
+
+#: core/apps/main/models/product_service.py:14
+msgid "company"
+msgstr "Company"
+
+#: core/apps/main/models/product_service.py:16
+msgid "category"
+msgstr "Category"
+
+#: core/apps/main/models/product_service.py:27
+msgid "ProductServiceModel"
+msgstr "Product / Service"
+
+#: core/apps/main/models/product_service.py:28
+msgid "ProductServiceModels"
+msgstr "Products / Services"
+
+#: core/apps/main/models/product_service.py:34
+msgid "product service"
+msgstr "Product / Service"
+
+#: core/apps/main/models/product_service.py:45
+#: core/apps/main/models/product_service.py:46
+msgid "ProductServiceFiles"
+msgstr "Product / Service Files"
+
+#: core/apps/main/serializers/add_employee/add_employee.py:38
+msgid "Uzr bunday raqamdagi foydalanuvchi allaqachon mavjud"
+msgstr "Sorry, a user with this phone number already exists"
+
+#: core/apps/referral/choices/referral_history_choice.py:6
+msgid "Income"
+msgstr "Income"
+
+#: core/apps/referral/choices/referral_history_choice.py:7
+msgid "Expense"
+msgstr "Expense"
+
+#: core/apps/referral/models/referral.py:10
+msgid "code"
+msgstr "Code"
+
+#: core/apps/referral/models/referral.py:11
+msgid "user"
+msgstr "User"
+
+#: core/apps/referral/models/referral.py:12
+msgid "referral registered count"
+msgstr "Registered referrals count"
+
+#: core/apps/referral/models/referral.py:13
+msgid "referral posted ads count"
+msgstr "Posted ads count"
+
+#: core/apps/referral/models/referral.py:14
+msgid "referral income amount"
+msgstr "Referral income amount"
+
+#: core/apps/referral/models/referral.py:26
+msgid "ReferralModel"
+msgstr "Referral"
+
+#: core/apps/referral/models/referral.py:27
+msgid "ReferralModels"
+msgstr "Referrals"
+
+#: core/apps/referral/models/referral.py:33
+msgid "share"
+msgstr "Share"
+
+#: core/apps/referral/models/referral.py:40
+msgid "ReferralReward"
+msgstr "Referral Reward"
+
+#: core/apps/referral/models/referral.py:41
+msgid "ReferralRewards"
+msgstr "Referral Rewards"
+
+#: core/apps/referral/models/referral.py:45
+msgid "min_people must be <= max_people"
+msgstr "Minimum people must be less than or equal to maximum people"
+
+#: core/apps/referral/models/referral.py:55
+#, python-format
+msgid "This bracket overlaps with existing active brackets: %s"
+msgstr "This bracket overlaps with existing active brackets: %s"
+
+#: core/apps/referral/models/referral_history.py:12
+msgid "Type"
+msgstr "Type"
+
+#: core/apps/referral/models/referral_history.py:13
+msgid "Amount"
+msgstr "Amount"
+
+#: core/apps/referral/models/referral_history.py:17
+msgid "Owner"
+msgstr "Owner"
+
+#: core/apps/referral/models/referral_history.py:28
+msgid "ReferralHistoryModel"
+msgstr "Referral History"
+
+#: core/apps/referral/models/referral_history.py:29
+msgid "ReferralHistoryModels"
+msgstr "Referral Histories"
+
+#: core/apps/referral/models/referral_users.py:14
+msgid "Referral Owner"
+msgstr "Referral Owner"
+
+#: core/apps/referral/models/referral_users.py:16
+msgid "Referral User"
+msgstr "Referral User"
+
+#: core/apps/referral/models/referral_users.py:28
+msgid "ReferralUsersModel"
+msgstr "Referral User"
+
+#: core/apps/referral/models/referral_users.py:29
+msgid "ReferralUsersModels"
+msgstr "Referral Users"
+
+#: core/apps/shared/models/settings.py:8
+#: core/apps/shared/models/settings.py:22
+msgid "key"
+msgstr "Key"
+
+#: core/apps/shared/models/settings.py:9
+msgid "is public"
+msgstr "Is public"
+
+#: core/apps/shared/models/settings.py:14
+#: core/apps/shared/models/settings.py:15
+msgid "Settings"
+msgstr "Settings"
+
+#: core/apps/shared/models/settings.py:20
+msgid "settings"
+msgstr "Settings"
+
+#: core/apps/shared/models/settings.py:24
+#: core/apps/shared/models/settings.py:25
+msgid "value"
+msgstr "Value"
+
+#: core/apps/shared/models/settings.py:30
+#: core/apps/shared/models/settings.py:31
+msgid "Options"
+msgstr "Options"
+
+#: core/apps/shared/utils/settings.py:16
+msgid "USD kursi kiritilmagan iltimos adminga murojat qiling"
+msgstr "USD exchange rate is not set, please contact the administrator"
+
+#: core/services/user.py:70
+msgid "Qayta sms yuborish uchun kuting: {}"
+msgstr "Please wait before requesting another SMS: {}"
+
+#: core/services/user.py:72
+msgid "Serverda xatolik yuz berdi"
+msgstr "A server error occurred"
+
+#: resources/templates/admin/index.html:13
+msgid "Django site admin"
+msgstr "Django site administration"
+
+#: resources/templates/admin/index.html:19
+msgid "Django administration"
+msgstr "Django administration"
+
+#: resources/templates/user/home.html:21
 msgid "Django"
-msgstr ""
+msgstr "Django"
 
-#: resources/templates/user/home.html:19
+#: resources/templates/user/home.html:22
 msgid "Assalomu aleykum"
-msgstr ""
+msgstr "Welcome"

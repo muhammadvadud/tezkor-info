@@ -1,51 +1,759 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Russian translations
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-15 16:40+0500\n"
-"PO-Revision-Date: 2024-02-09 15:09+0500\n"
-"Last-Translator:   <admin@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-12-19 20:48+0500\n"
+"PO-Revision-Date: 2025-12-19 21:30+0500\n"
+"Last-Translator: admin <admin@gmail.com>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Translated-Using: django-rosetta 0.10.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
-#: config/settings/common.py:148
+#: config/conf/navigation.py:9
+msgid "Home page"
+msgstr "Главная"
+
+#: config/conf/navigation.py:16
+msgid "Auth"
+msgstr "Аутентификация и авторизация"
+
+#: config/conf/navigation.py:20
+msgid "Users"
+msgstr "Пользователи"
+
+#: config/conf/navigation.py:25
+msgid "Group"
+msgstr "Группы"
+
+#: config/conf/unfold.py:10
+msgid "Development"
+msgstr "Разработка"
+
+#: config/conf/unfold.py:12
+msgid "Production"
+msgstr "Продакшн"
+
+#: config/settings/common.py:137
 msgid "Russia"
-msgstr ""
+msgstr "Россия"
 
-#: config/settings/common.py:149
+#: config/settings/common.py:138
 msgid "English"
-msgstr ""
+msgstr "Английский"
 
-#: config/settings/common.py:150
+#: config/settings/common.py:139
 msgid "Uzbek"
+msgstr "Узбекский"
+
+#: core/apps/accounts/admin/user.py:27
+msgid "Personal info"
+msgstr "Личная информация"
+
+#: core/apps/accounts/admin/user.py:33
+msgid "Permissions"
+msgstr "Права доступа"
+
+#: core/apps/accounts/admin/user.py:48
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: core/apps/accounts/choices/user.py:10
+msgid "Superuser"
+msgstr "Суперпользователь"
+
+#: core/apps/accounts/choices/user.py:11
+msgid "Admin"
+msgstr "Администратор"
+
+#: core/apps/accounts/choices/user.py:12
+#: core/apps/accounts/models/out_balance.py:9
+msgid "User"
+msgstr "Пользователь"
+
+#: core/apps/accounts/choices/user.py:20
+msgid "Xodim"
+msgstr "Сотрудник"
+
+#: core/apps/accounts/choices/user.py:21
+msgid "Yuridik shaxs"
+msgstr "Юридическое лицо"
+
+#: core/apps/accounts/models/employee_pending.py:7
+msgid "Full Name"
+msgstr "ФИО"
+
+#: core/apps/accounts/models/employee_pending.py:8
+msgid "Phone Number"
+msgstr "Номер телефона"
+
+#: core/apps/accounts/models/employee_pending.py:9
+msgid "Stir"
+msgstr "ИНН"
+
+#: core/apps/accounts/models/employee_pending.py:10
+msgid "TG ID"
+msgstr "Telegram ID"
+
+#: core/apps/accounts/models/out_balance.py:10
+msgid "Balance"
+msgstr "Баланс"
+
+#: core/apps/accounts/models/out_balance.py:11
+#: core/apps/referral/models/referral_history.py:16
+msgid "Ad"
+msgstr "Объявление"
+
+#: core/apps/accounts/models/out_balance.py:18
+#: core/apps/accounts/models/out_balance.py:19
+msgid "OutBalance"
+msgstr "Исходящий баланс"
+
+#: core/apps/accounts/models/region.py:7
+msgid "Country name"
+msgstr "Название страны"
+
+#: core/apps/accounts/models/region.py:14
+#: core/apps/accounts/models/region.py:19
+msgid "Country"
+msgstr "Страна"
+
+#: core/apps/accounts/models/region.py:15
+msgid "Countries"
+msgstr "Страны"
+
+#: core/apps/accounts/models/region.py:27
+#: core/apps/accounts/models/region.py:33
+msgid "Region"
+msgstr "Регион"
+
+#: core/apps/accounts/models/region.py:28
+msgid "Regions"
+msgstr "Регионы"
+
+#: core/apps/accounts/models/region.py:40
+msgid "District"
+msgstr "Район"
+
+#: core/apps/accounts/models/region.py:41
+msgid "Districts"
+msgstr "Районы"
+
+#: core/apps/accounts/models/tg_ids.py:7
+msgid "id"
 msgstr ""
 
-#: core/http/admin/index.py:20
-msgid "Custom Field"
+#: core/apps/accounts/models/tg_ids.py:14
+#: core/apps/accounts/models/tg_ids.py:15
+msgid "User TgIds"
+msgstr "Telegram ID пользователей"
+
+#: core/apps/accounts/serializers/auth.py:25
+msgid "Phone number already registered."
 msgstr ""
 
-#: core/http/tasks/index.py:13
+#: core/apps/accounts/serializers/auth.py:51
+#: core/apps/accounts/serializers/auth.py:62
+#: core/apps/accounts/serializers/login.py:18
+msgid "User does not exist"
+msgstr ""
+
+#: core/apps/accounts/tasks/sms.py:21
 #, python-format
 msgid "Sizning Tasdiqlash ko'dingiz: %(code)s"
 msgstr ""
 
-#: resources/templates/user/home.html:18
+#: core/apps/accounts/views/auth.py:61 core/apps/accounts/views/auth.py:101
+#: core/apps/accounts/views/auth.py:125 core/apps/accounts/views/login.py:51
+#: core/apps/accounts/views/login.py:93
+#, python-format
+msgid "Sms %(phone)s raqamiga yuborildi"
+msgstr ""
+
+#: core/apps/accounts/views/auth.py:85 core/apps/accounts/views/login.py:77
+msgid "Tasdiqlash ko'di qabul qilindi"
+msgstr ""
+
+#: core/apps/accounts/views/auth.py:162
+msgid "Invalid token"
+msgstr ""
+
+#: core/apps/accounts/views/auth.py:166
+msgid "password updated"
+msgstr ""
+
+#: core/apps/accounts/views/auth.py:191
+msgid "Malumotlar yangilandi"
+msgstr ""
+
+#: core/apps/accounts/views/auth.py:218
+msgid "invalida password"
+msgstr ""
+
+#: core/apps/main/choices/payment_status.py:10
+msgid "Pending"
+msgstr ""
+
+#: core/apps/main/choices/payment_status.py:11
+msgid "Paid"
+msgstr ""
+
+#: core/apps/main/choices/payment_status.py:12
+msgid "Verified"
+msgstr ""
+
+#: core/apps/main/choices/payment_status.py:13
+msgid "Canceled"
+msgstr ""
+
+#: core/apps/main/choices/payment_type.py:10
+#: core/apps/referral/models/referral_history.py:14
+#: core/apps/referral/models/referral_users.py:17
+#, fuzzy
+#| msgid "ReferralModel"
+msgid "Referral"
+msgstr "Реферальная программа"
+
+#: core/apps/main/choices/payment_type.py:11
+msgid "Payme"
+msgstr ""
+
+#: core/apps/main/choices/payment_type.py:12
+msgid "Other"
+msgstr ""
+
+#: core/apps/main/models/PriceCountry.py:21
+msgid "PriceCountryModel"
+msgstr "Цена по стране"
+
+#: core/apps/main/models/PriceCountry.py:22
+msgid "PriceCountryModels"
+msgstr "Цены по странам"
+
+#: core/apps/main/models/ad.py:13 core/apps/main/models/category.py:8
+#: core/apps/main/models/notification.py:8
+msgid "name"
+msgstr "Название"
+
+#: core/apps/main/models/ad.py:14 core/apps/main/models/notification.py:9
+#: core/apps/main/models/product_service.py:9
+#: core/apps/referral/models/referral.py:15
+#: core/apps/shared/models/settings.py:10
+msgid "description"
+msgstr "Описание"
+
+#: core/apps/main/models/ad.py:15
+msgid "view count"
+msgstr "Количество просмотров"
+
+#: core/apps/main/models/ad.py:16
+msgid "types"
+msgstr "Типы"
+
+#: core/apps/main/models/ad.py:17
+msgid "total price"
+msgstr "Общая стоимость"
+
+#: core/apps/main/models/ad.py:18
+msgid "phone number"
+msgstr "Номер телефона"
+
+#: core/apps/main/models/ad.py:20
+msgid "payments type"
+msgstr "Тип оплаты"
+
+#: core/apps/main/models/ad.py:21
+msgid "company selections"
+msgstr "Выбор компаний"
+
+#: core/apps/main/models/ad.py:22
+msgid "status"
+msgstr "Статус"
+
+#: core/apps/main/models/ad.py:24
+msgid "sent to"
+msgstr "Отправлено"
+
+#: core/apps/main/models/ad.py:26
+msgid "path"
+msgstr "Путь"
+
+#: core/apps/main/models/ad.py:37
+msgid "AdModel"
+msgstr "Объявление"
+
+#: core/apps/main/models/ad.py:38
+msgid "AdModels"
+msgstr "Объявления"
+
+#: core/apps/main/models/ad.py:42
+msgid "ad"
+msgstr "Объявление"
+
+#: core/apps/main/models/ad.py:43 core/apps/main/models/product_service.py:32
+msgid "file"
+msgstr "Файл"
+
+#: core/apps/main/models/ad.py:54
+msgid "AdFilesModel"
+msgstr "Файл объявления"
+
+#: core/apps/main/models/ad.py:55
+msgid "AdFilesModels"
+msgstr "Файлы объявлений"
+
+#: core/apps/main/models/category.py:21
+msgid "icon name"
+msgstr "Название иконки"
+
+#: core/apps/main/models/category.py:36
+msgid "CategoryModel"
+msgstr "Категория"
+
+#: core/apps/main/models/category.py:37
+msgid "CategoryModels"
+msgstr "Категории"
+
+#: core/apps/main/models/company_selection.py:8
+msgid "continent"
+msgstr "Континент"
+
+#: core/apps/main/models/company_selection.py:9
+msgid "country"
+msgstr "Страна"
+
+#: core/apps/main/models/company_selection.py:10
+msgid "region"
+msgstr "Регион"
+
+#: core/apps/main/models/company_selection.py:11
+msgid "district"
+msgstr "Район"
+
+#: core/apps/main/models/company_selection.py:12
+msgid "letters"
+msgstr "Количество символов"
+
+#: core/apps/main/models/company_selection.py:13
+msgid "total_companies"
+msgstr "Количество компаний"
+
+#: core/apps/main/models/company_selection.py:14
+msgid "ad_price"
+msgstr "Цена объявления"
+
+#: core/apps/main/models/company_selection.py:15
+msgid "total_price"
+msgstr "Общая стоимость"
+
+#: core/apps/main/models/company_selection.py:26
+msgid "CompanySelectionModel"
+msgstr "Выбор компаний"
+
+#: core/apps/main/models/company_selection.py:27
+msgid "CompanySelectionModels"
+msgstr "Выборы компаний"
+
+#: core/apps/main/models/notification.py:10
+msgid "is send"
+msgstr "Отправлено"
+
+#: core/apps/main/models/notification.py:21
+msgid "NotificationModel"
+msgstr "Уведомление"
+
+#: core/apps/main/models/notification.py:22
+msgid "NotificationModels"
+msgstr "Уведомления"
+
+#: core/apps/main/models/notification.py:26
+#, fuzzy
+#| msgid "NotificationModels"
+msgid "Notification Files"
+msgstr "Уведомления"
+
+#: core/apps/main/models/notification.py:27
+#, fuzzy
+#| msgid "NotificationModel"
+msgid "notification"
+msgstr "Уведомление"
+
+#: core/apps/main/models/notification.py:35
+#: core/apps/main/models/notification.py:36
+#, fuzzy
+#| msgid "NotificationModels"
+msgid "NotificationFiles"
+msgstr "Уведомления"
+
+#: core/apps/main/models/price_bracket.py:7
+#: core/apps/referral/models/referral.py:31
+msgid "min_person"
+msgstr ""
+
+#: core/apps/main/models/price_bracket.py:8
+#: core/apps/referral/models/referral.py:32
+msgid "max_person"
+msgstr ""
+
+#: core/apps/main/models/price_bracket.py:9
+#, fuzzy
+#| msgid "ad_price"
+msgid "price"
+msgstr "Цена объявления"
+
+#: core/apps/main/models/price_bracket.py:16
+#: core/apps/main/models/price_bracket.py:17
+msgid "PriceBracket"
+msgstr "Ценовой диапазон"
+
+#: core/apps/main/models/product_service.py:8
+msgid "title"
+msgstr ""
+
+#: core/apps/main/models/product_service.py:14
+msgid "company"
+msgstr ""
+
+#: core/apps/main/models/product_service.py:16
+#, fuzzy
+#| msgid "CategoryModel"
+msgid "category"
+msgstr "Категория"
+
+#: core/apps/main/models/product_service.py:27
+#, fuzzy
+#| msgid "Production"
+msgid "ProductServiceModel"
+msgstr "Продакшн"
+
+#: core/apps/main/models/product_service.py:28
+#, fuzzy
+#| msgid "PriceCountryModels"
+msgid "ProductServiceModels"
+msgstr "Цены по странам"
+
+#: core/apps/main/models/product_service.py:34
+msgid "product service"
+msgstr ""
+
+#: core/apps/main/models/product_service.py:45
+#: core/apps/main/models/product_service.py:46
+msgid "ProductServiceFiles"
+msgstr ""
+
+#: core/apps/main/serializers/add_employee/add_employee.py:38
+msgid "Uzr bunday raqamdagi foydalanuvchi allaqachon mavjud"
+msgstr ""
+
+#: core/apps/referral/choices/referral_history_choice.py:6
+msgid "Income"
+msgstr ""
+
+#: core/apps/referral/choices/referral_history_choice.py:7
+msgid "Expense"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:10
+msgid "code"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:11
+#, fuzzy
+#| msgid "Superuser"
+msgid "user"
+msgstr "Суперпользователь"
+
+#: core/apps/referral/models/referral.py:12
+msgid "referral registered count"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:13
+msgid "referral posted ads count"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:14
+msgid "referral income amount"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:26
+msgid "ReferralModel"
+msgstr "Реферальная программа"
+
+#: core/apps/referral/models/referral.py:27
+msgid "ReferralModels"
+msgstr "Реферальные программы"
+
+#: core/apps/referral/models/referral.py:33
+msgid "share"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:40
+#, fuzzy
+#| msgid "ReferralUsersModel"
+msgid "ReferralReward"
+msgstr "Реферальный пользователь"
+
+#: core/apps/referral/models/referral.py:41
+#, fuzzy
+#| msgid "ReferralUsersModels"
+msgid "ReferralRewards"
+msgstr "Реферальные пользователи"
+
+#: core/apps/referral/models/referral.py:45
+msgid "min_people must be <= max_people"
+msgstr ""
+
+#: core/apps/referral/models/referral.py:55
+#, python-format
+msgid "This bracket overlaps with existing active brackets: %s"
+msgstr ""
+
+#: core/apps/referral/models/referral_history.py:12
+msgid "Type"
+msgstr ""
+
+#: core/apps/referral/models/referral_history.py:13
+#, fuzzy
+#| msgid "Country"
+msgid "Amount"
+msgstr "Страна"
+
+#: core/apps/referral/models/referral_history.py:17
+msgid "Owner"
+msgstr ""
+
+#: core/apps/referral/models/referral_history.py:28
+#, fuzzy
+#| msgid "ReferralUsersModel"
+msgid "ReferralHistoryModel"
+msgstr "Реферальный пользователь"
+
+#: core/apps/referral/models/referral_history.py:29
+#, fuzzy
+#| msgid "ReferralModels"
+msgid "ReferralHistoryModels"
+msgstr "Реферальные программы"
+
+#: core/apps/referral/models/referral_users.py:14
+#, fuzzy
+#| msgid "ReferralModel"
+msgid "Referral Owner"
+msgstr "Реферальная программа"
+
+#: core/apps/referral/models/referral_users.py:16
+#, fuzzy
+#| msgid "ReferralUsersModel"
+msgid "Referral User"
+msgstr "Реферальный пользователь"
+
+#: core/apps/referral/models/referral_users.py:28
+msgid "ReferralUsersModel"
+msgstr "Реферальный пользователь"
+
+#: core/apps/referral/models/referral_users.py:29
+msgid "ReferralUsersModels"
+msgstr "Реферальные пользователи"
+
+#: core/apps/shared/models/settings.py:8 core/apps/shared/models/settings.py:22
+msgid "key"
+msgstr ""
+
+#: core/apps/shared/models/settings.py:9
+msgid "is public"
+msgstr ""
+
+#: core/apps/shared/models/settings.py:14
+#: core/apps/shared/models/settings.py:15
+msgid "Settings"
+msgstr ""
+
+#: core/apps/shared/models/settings.py:20
+msgid "settings"
+msgstr ""
+
+#: core/apps/shared/models/settings.py:24
+#: core/apps/shared/models/settings.py:25
+msgid "value"
+msgstr ""
+
+#: core/apps/shared/models/settings.py:30
+#: core/apps/shared/models/settings.py:31
+msgid "Options"
+msgstr ""
+
+#: core/apps/shared/utils/settings.py:16
+msgid "USD kursi kiritilmagan iltimos adminga murojat qiling"
+msgstr ""
+
+#: core/services/user.py:70
+msgid "Qayta sms yuborish uchun kuting: {}"
+msgstr ""
+
+#: core/services/user.py:72
+msgid "Serverda xatolik yuz berdi"
+msgstr ""
+
+#: resources/templates/admin/index.html:13
+msgid "Django site admin"
+msgstr "Администрирование сайта Django"
+
+#: resources/templates/admin/index.html:19
+msgid "Django administration"
+msgstr "Администрирование Django"
+
+#: resources/templates/user/home.html:21
 msgid "Django"
 msgstr ""
 
-#: resources/templates/user/home.html:19
+#: resources/templates/user/home.html:22
 msgid "Assalomu aleykum"
 msgstr ""
+
+#, fuzzy
+#~| msgid "NotificationModels"
+#~ msgid "Static Files"
+#~ msgstr "Уведомления"
+
+#, fuzzy
+#~| msgid "NotificationModel"
+#~ msgid "Syndication"
+#~ msgstr "Уведомление"
+
+#, fuzzy
+#~| msgid "phone number"
+#~ msgid "Enter a number."
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "ad"
+#~ msgid "and"
+#~ msgstr "Объявление"
+
+#, fuzzy
+#~| msgid "phone number"
+#~ msgid "Decimal number"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "path"
+#~ msgid "File path"
+#~ msgstr "Путь"
+
+#, fuzzy
+#~| msgid "phone number"
+#~ msgid "Floating point number"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "company selections"
+#~ msgid "Many-to-many relationship"
+#~ msgstr "Выбор компаний"
+
+#, fuzzy
+#~| msgid "phone number"
+#~ msgid "Enter a whole number."
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "Phone Number"
+#~ msgid "November"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "Phone Number"
+#~ msgctxt "alt. month"
+#~ msgid "November"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "Django administration"
+#~ msgid "Django Documentation"
+#~ msgstr "Администрирование Django"
+
+#, fuzzy
+#~| msgid "Full Name"
+#~ msgid "Name"
+#~ msgstr "ФИО"
+
+#, fuzzy
+#~| msgid "Permissions"
+#~ msgid "Object permissions"
+#~ msgstr "Права доступа"
+
+#, fuzzy
+#~| msgid "Permissions"
+#~ msgid "Group permissions"
+#~ msgstr "Права доступа"
+
+#, fuzzy
+#~| msgid "Production"
+#~ msgid "Action"
+#~ msgstr "Продакшн"
+
+#, fuzzy
+#~| msgid "Permissions"
+#~ msgid "User permissions"
+#~ msgstr "Права доступа"
+
+#, fuzzy
+#~| msgid "phone number"
+#~ msgid "Line number"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~| msgid "Country"
+#~ msgid "entry"
+#~ msgid_plural "entries"
+#~ msgstr[0] "Страна"
+#~ msgstr[1] "Страна"
+#~ msgstr[2] "Страна"
+
+#, fuzzy
+#~| msgid "company selections"
+#~ msgid "Clear selection"
+#~ msgstr "Выбор компаний"
+
+#, fuzzy
+#~| msgid "view count"
+#~ msgid "View on site"
+#~ msgstr "Количество просмотров"
+
+#, fuzzy
+#~| msgid "letters"
+#~ msgid "Filters"
+#~ msgstr "Количество символов"
+
+#, fuzzy
+#~| msgid "Ad"
+#~ msgid "Add"
+#~ msgstr "Объявление"
+
+#, fuzzy
+#~| msgid "view count"
+#~ msgid "Hide counts"
+#~ msgstr "Количество просмотров"
+
+#, fuzzy
+#~| msgid "view count"
+#~ msgid "Show counts"
+#~ msgstr "Количество просмотров"
+
+#, fuzzy
+#~| msgid "letters"
+#~ msgid "Reset filters"
+#~ msgstr "Количество символов"
+
+#, fuzzy
+#~| msgid "Home page"
+#~ msgid "Home"
+#~ msgstr "Главная"
+
+#~ msgid "OutBalances"
+#~ msgstr "Исходящие балансы"
+
+#~ msgid "PriceBrackets"
+#~ msgstr "Ценовые диапазоны"
