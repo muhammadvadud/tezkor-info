@@ -15,7 +15,7 @@ from core.apps.referral.serializers.referral_history import (
 
 @extend_schema(tags=["ReferralHistory"])
 class ReferralHistoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
-    queryset = ReferralHistoryModel.objects.all()
+    queryset = ReferralHistoryModel.objects.all().order_by("-id")
     serializer_class = ListReferralHistorySerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]

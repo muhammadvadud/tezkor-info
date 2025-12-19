@@ -49,6 +49,7 @@ class BaseConfirmationAdsSerializer(serializers.ModelSerializer):
             "files",
             "company_selections",
             "phone_number",
+            "created_at",
         ]
 
 

@@ -36,6 +36,7 @@ class BaseDashboardAdsSerializer(serializers.ModelSerializer):
             "files",
             "status",
             "types",
+            "created_at",
         ]
 
 
