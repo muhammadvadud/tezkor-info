@@ -752,3 +752,31 @@ def load_categories(data, parent=None):
 
         if children:
             load_categories(children, parent=category)
+
+
+from core.apps.main.models import CategoryModel
+
+
+def normalize_model_names():
+    def sentence_case(text: str) -> str:
+        if not text:
+            return text
+        text = text.strip()
+        return text[0].upper() + text[1:].lower()
+
+    fields = ["name_uz", "name_ru", "name_en"]
+
+    qs = CategoryModel.objects.all()
+
+    for obj in qs.iterator():
+        changed = False
+        for field in fields:
+            value = getattr(obj, field, None)
+            if value:
+                new_value = sentence_case(value)
+                if value != new_value:
+                    setattr(obj, field, new_value)
+                    changed = True
+
+        if changed:
+            obj.save(update_fields=fields)
