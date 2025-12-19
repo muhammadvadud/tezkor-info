@@ -34,7 +34,7 @@ class CategoryView(BaseViewSetMixin, ReadOnlyModelViewSet):
 
         if parent_id:
             return CategoryModel.objects.filter(parent_id=parent_id).order_by("order", "id")
-        return CategoryModel.objects.filter(level=2).order_by("order", "id")
+        return CategoryModel.objects.filter(level=1).order_by("order", "id")
 
     def get_serializer_class(self):
         is_tree = self.request.query_params.get('is_tree', '').lower() == 'true'
