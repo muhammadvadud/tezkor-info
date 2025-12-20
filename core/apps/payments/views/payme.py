@@ -4,10 +4,28 @@ from payme.models import PaymeTransactions
 from core.apps.main.models import AdModel
 from core.apps.main.choices import PaymentsTypeChoice, PaymentsStatusChoice
 from core.services.payme_pay import payme_pay
+import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PaymeCallBackAPIView(PaymeWebHookAPIView):
     permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            raw_body = request.body.decode("utf-8")
+            print(f"PAYME RAW BODY:{raw_body}")
+            try:
+                print(f"PAYME JSON BODY:{json.loads(raw_body)}")
+            except Exception:
+                pass
+
+        except Exception as e:
+            logger.error("BODY READ ERROR: %s", e)
+
+        return super().post(request, *args, **kwargs)
 
     def handle_created_payment(self, params, result, *args, **kwargs):
         """
