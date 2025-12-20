@@ -12,9 +12,11 @@ from .views import (
     BusinessAboutView,
     GetPdfViewSet,
     EmployeeView,
+    CountriesView,
 )
 
 router = DefaultRouter()
+router.register("countries", CountriesView, basename="countries")
 router.register("employee", EmployeeView, basename="employee")
 router.register("ad", GetPdfViewSet, basename="get-pdf")
 router.register("business-about", BusinessAboutView, basename="business-about")
