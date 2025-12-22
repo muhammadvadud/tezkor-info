@@ -65,7 +65,7 @@ async def start_welcome_flow(message: types.Message, state: FSMContext, payload,
             )
             await message.answer(
                 WELCOME_TEXT +
-                f"Sizning kodingiz:\n\nTasdiqlash uchun kod: <code>{code}</code>\n\n{URL}",
+                f"Sizning kodingiz:\n\nTasdiqlash uchun kod: <code>{code}</code>\n\n",
                 parse_mode="HTML",
                 reply_markup=keyboard,
             )
