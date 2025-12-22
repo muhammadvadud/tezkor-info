@@ -4,18 +4,23 @@ from aiogram import Bot
 from django.conf import settings
 from django.contrib.auth import get_user_model
 import threading
+from django.utils.timezone import now
 
 
 def get_or_return_sms_code(phone):
     from django_core.models.user import SmsConfirm
+
     try:
         sms_obj = SmsConfirm.objects.get(phone=phone)
     except SmsConfirm.DoesNotExist:
-        return False
+        return False, "SMS_NOT_FOUND"
+
     if sms_obj.expire_time is None:
-        return False
-    if sms_obj.expire_time.timestamp() < now().timestamp():
-        return False
+        return False, "EXPIRE_TIME_IS_NONE"
+
+    if sms_obj.expire_time < now():
+        return False, "SMS_EXPIRED"
+
     return sms_obj.code
 
 

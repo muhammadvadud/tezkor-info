@@ -45,8 +45,15 @@ async def start_welcome_flow(message: types.Message, state: FSMContext, payload,
         async def get_code():
             return await db_call(get_or_return_sms_code, phone)
 
-        code = await get_code()
+        result = await get_code()
 
+        reason = None
+        code = None
+
+        if isinstance(result, tuple):
+            code, reason = result
+        else:
+            code = result
         if code:
             URL = f"{WEB_APP_URL}/{payload_type}?code={code}&phone={phone}"
             web_app_info = WebAppInfo(url=URL)
@@ -63,10 +70,16 @@ async def start_welcome_flow(message: types.Message, state: FSMContext, payload,
                 reply_markup=keyboard,
             )
         else:
-            await message.answer(
-                WELCOME_TEXT +
-                "❌ Ushbu raqamga hech qanday kod yuborilmagan."
-            )
+            if reason == "SMS_NOT_FOUND":
+                text = "❌ Ushbu raqamga kod yuborilmagan."
+            elif reason == "SMS_EXPIRED":
+                text = "⏰ Kod muddati tugagan. Qayta kod so‘rang."
+            elif reason == "EXPIRE_TIME_IS_NONE":
+                text = "⚠️ Kod holati noto‘g‘ri. Iltimos qayta urinib ko‘ring."
+            else:
+                text = "❌ Noma’lum xatolik yuz berdi."
+
+            await message.answer(WELCOME_TEXT + text)
 
     except Exception as e:
         logger.error(e, exc_info=True)
