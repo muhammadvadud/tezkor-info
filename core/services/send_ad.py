@@ -3,7 +3,6 @@ import asyncio
 from aiogram import Bot
 from django.conf import settings
 from .get_users import get_users_for_ad
-from core.apps.main.models import AdModel
 
 
 def send_ad(ad):
@@ -15,6 +14,9 @@ def send_ad(ad):
         tg_ids.extend(user.user_tg_ids.values_list("tg_id", flat=True))
 
     tg_ids = list(set(tg_ids))
+    count = len(tg_ids)
+    ad.total_view_count = count
+    ad.save()
     username = f"{ad.created_by.first_name} {ad.created_by.last_name}"
     ad_data = {
         "id": ad.id,
