@@ -142,6 +142,8 @@ class GetLegalEntitySerializer(serializers.ModelSerializer):
             "id",
             "company_name",
             "country_name",
+            "region_name",
+            "district_name",
             "product_service_company"
         ]
 
