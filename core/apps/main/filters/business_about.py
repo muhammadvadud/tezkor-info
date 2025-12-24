@@ -20,11 +20,11 @@ class BusinessAboutFilter(filters.FilterSet):
         lookup_expr="iexact"
     )
 
-    activate_types = filters.NumberFilter(
+    types = filters.NumberFilter(
         field_name="activate_types__id",
         lookup_expr="exact"
     )
 
     class Meta:
         model = User
-        fields = ["country", "region", "district", "activate_types"]
+        fields = ["country", "region", "district", "types"]
