@@ -133,6 +133,8 @@ class CreateProductServiceSerializer(BaseProductServiceSerializer):
 class GetLegalEntitySerializer(serializers.ModelSerializer):
     product_service_company = BaseProductServiceSerializer(many=True, read_only=True)
     country_name = serializers.CharField(source="district.region.country.name", read_only=True)
+    region_name = serializers.CharField(source="district.region.name", read_only=True)
+    district_name = serializers.CharField(source="district.name", read_only=True)
 
     class Meta:
         model = get_user_model()
