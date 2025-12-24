@@ -17,12 +17,11 @@ def send_ad(ad):
     count = len(tg_ids)
     ad.total_view_count = count
     ad.save()
-    username = f"{ad.created_by.first_name} {ad.created_by.last_name}"
     ad_data = {
         "id": ad.id,
         "title": ad.title,
         "description": ad.description,
-        "username": username,
+        "username": ad.created_by.company_name,
         "phone": ad.phone_number,
     }
 
