@@ -36,6 +36,11 @@ PAGES = [
                 "icon": "sms",
                 "link": reverse_lazy("admin:django_core_smsconfirm_changelist"),
             },
+            {
+                "title": _("Signup Bonus"),
+                "icon": "card_giftcard",
+                "link": reverse_lazy("admin:accounts_signupbonusmodel_changelist"),
+            },
         ],
     },
     {
