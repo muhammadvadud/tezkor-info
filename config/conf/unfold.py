@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.templatetags.static import static
 from django.utils.translation import gettext_lazy as _
 
 from . import navigation
@@ -90,6 +89,6 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": True,
         "show_all_applications": True,
-        # "navigation": navigation.PAGES,
+        "navigation": navigation.PAGES,
     },
 }
