@@ -12,11 +12,11 @@ def payme_pay(ad):
     except ReferralUsersModel.DoesNotExist:
         return False
     referral_owner = obj.referral_owner
-    referral_share = referral_owner.referral_share
+    referral = obj.referral
+    referral_share = referral.referral_share
     amount = (ad.total_price * referral_share) / 100
     referral_owner.referral_amount += amount
     referral_owner.save()
-    referral = obj.referral
     referral.referral_posted_ads_count += 1
     referral.referral_income_amount += amount
     referral.save()

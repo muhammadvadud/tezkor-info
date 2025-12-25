@@ -10,9 +10,10 @@ class ReferralModel(AbstractBaseModel):
     code = models.CharField(verbose_name=_("code"), max_length=255, unique=True)
     user = models.ForeignKey(get_user_model(), verbose_name=_("user"), on_delete=models.CASCADE)
     referral_registered_count = models.IntegerField(verbose_name=_("referral registered count"), default=0)
-    referral_posted_ads_count = models.IntegerField(verbose_name=_("referral posted ads count"), default=0)
     referral_income_amount = models.IntegerField(verbose_name=_("referral income amount"), default=0)
+    referral_share = models.IntegerField(verbose_name=_("referral share %"), default=0)
     description = models.TextField(verbose_name=_("description"), blank=True, null=True)
+    is_agent = models.BooleanField(verbose_name=_("is_agent"), default=False)
 
     def __str__(self):
         return str(self.pk)

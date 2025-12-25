@@ -5,7 +5,7 @@ import random
 import string
 
 
-def generate_code(length=6):
+def generate_code(length=9):
     chars = string.ascii_uppercase + string.digits
     return ''.join(random.choice(chars) for _ in range(length))
 
@@ -18,7 +18,6 @@ class BaseReferralSerializer(serializers.ModelSerializer):
             "code",
             "user",
             "referral_registered_count",
-            "referral_posted_ads_count",
             "referral_income_amount",
             "description",
         ]
@@ -51,8 +50,8 @@ class CreateReferralSerializer(BaseReferralSerializer):
         code = validated_data.get('code')
         if code:
             if code != "generate":
-                if len(code) > 6:
-                    raise serializers.ValidationError({"code": "Code must be less than 6 characters"})
+                if len(code) > 9:
+                    raise serializers.ValidationError({"code": "Code must be less than 9 characters"})
                 check = ReferralModel.objects.filter(code=code).exists()
                 if check:
                     raise serializers.ValidationError({"code": "Code already exists"})

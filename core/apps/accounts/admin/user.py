@@ -42,6 +42,7 @@ class CustomUserAdmin(admin.UserAdmin, ModelAdmin):
                     "user_tg_ids",
                     "company_image",
                     "parent",
+                    "can_create_referral",
                 ),
             },
         ),

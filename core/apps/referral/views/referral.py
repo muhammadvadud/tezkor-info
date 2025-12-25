@@ -1,6 +1,6 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from core.apps.referral.permissions import ReferralPermission
 from rest_framework.viewsets import ModelViewSet
 from core.apps.accounts.choices.user import PersonTypeChoice
 from core.apps.referral.models import ReferralModel
@@ -15,7 +15,7 @@ from core.apps.referral.serializers.referral import (
 class ReferralView(BaseViewSetMixin, ModelViewSet):
     queryset = ReferralModel.objects.all()
     serializer_class = ListReferralSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [ReferralPermission]
     http_method_names = ["get", "post", "head", "options"]
 
     action_permission_classes = {}
