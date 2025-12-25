@@ -4,6 +4,21 @@ from rest_framework.test import APIClient
 
 from core.apps.referral.models import ReferralHistoryModel
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+@pytest.fixture
+def user(db):
+    user = User.objects.create_user(
+        phone="1234567890",
+        password="123456"
+    )
+    user.can_create_referral = True
+    user.save()
+    return user
+
 
 @pytest.fixture
 def instance(db):
@@ -11,9 +26,9 @@ def instance(db):
 
 
 @pytest.fixture
-def api_client(instance):
+def api_client(user, instance):
     client = APIClient()
-    ##client.force_authenticate(user=instance.user)
+    client.force_authenticate(user=user)
     return client, instance
 
 
@@ -56,7 +71,6 @@ def test_retrieve_not_found(data):
     data_resp = response.json()
     assert response.status_code == 404
     assert data_resp["status"] is False
-
 
 # @pytest.mark.django_db
 # def test_create(data):

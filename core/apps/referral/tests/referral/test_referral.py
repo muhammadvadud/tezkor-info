@@ -11,9 +11,13 @@ def instance(db):
 
 
 @pytest.fixture
-def api_client(instance):
+def api_client(instance, db):
+    user = instance.user
+    user.can_create_referral = True
+    user.save()
+
     client = APIClient()
-    client.force_authenticate(user=instance.user)
+    client.force_authenticate(user=user)
     return client, instance
 
 
@@ -38,7 +42,6 @@ def test_list(data):
     data_resp = response.json()
     assert response.status_code == 200
     assert data_resp["status"] is True
-
 
 
 @pytest.mark.django_db
