@@ -13,9 +13,11 @@ from .views import (
     GetPdfViewSet,
     EmployeeView,
     CountriesView,
+    LegalDocumentsView,
 )
 
 router = DefaultRouter()
+router.register("legal-documents", LegalDocumentsView, basename="legal-documents")
 router.register("countries", CountriesView, basename="countries")
 router.register("employee", EmployeeView, basename="employee")
 router.register("ad", GetPdfViewSet, basename="get-pdf")

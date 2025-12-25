@@ -9,3 +9,4 @@ from .business_about import *  # noqa
 from .get_pdf import *  # noqa
 from .add_employee import *  # noqa
 from .countries import *  # noqa
+from .legal_documents import *  # noqa

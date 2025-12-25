@@ -3,3 +3,4 @@ from .category import *  # noqa
 from .PriceCountry import *  # noqa
 from .product_service import *  # noqa
 from .business_about import *  # noqa
+from .legal_documents import *  # noqa

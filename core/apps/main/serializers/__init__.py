@@ -8,3 +8,4 @@ from .confirmation_ads import *  # noqa
 from .business_about import *  # noqa
 from .add_employee import *  # noqa
 from .countries import *  # noqa
+from .legal_documents import *  # noqa
