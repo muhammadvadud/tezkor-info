@@ -6,3 +6,4 @@ from .get_users import *  # noqa
 from .send_user_notification import *  # noqa
 from .send_otp_bot import *  # noqa
 from .pdf_generate import *  # noqa
+from .cashback import *  # noqa

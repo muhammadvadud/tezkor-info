@@ -21,7 +21,7 @@ class User(auth_models.AbstractUser):
     stir = models.CharField(max_length=255, null=True, blank=True)
     director_full_name = models.CharField(max_length=255, null=True, blank=True)
     referral = models.CharField(max_length=255, null=True, blank=True)
-    referral_amount = models.PositiveIntegerField(default=0)
+    referral_amount = models.PositiveIntegerField(default=0)  # Bu userning balansi
     user_tg_ids = models.ManyToManyField(UserTgIds, blank=True)
     can_create_referral = models.BooleanField(default=False)
     role = models.CharField(

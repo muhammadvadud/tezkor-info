@@ -155,6 +155,23 @@ PAGES = [
         ],
     },
     {
+        "title": _("Cashback"),
+        "separator": True,
+        "items": [
+            {
+                "title": _("Cashbacks"),
+                "icon": "monetization_on",
+                "link": reverse_lazy("admin:payments_cashbackmodel_changelist"),
+            },
+            {
+                "title": _("Cashback Percent"),
+                "icon": "percent",
+                "link": reverse_lazy("admin:payments_cashbackpercentmodel_changelist"),
+
+            },
+        ]
+    },
+    {
         "title": _("Settings"),
         "separator": True,
         "items": [
