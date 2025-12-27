@@ -780,3 +780,7 @@ def normalize_model_names():
 
         if changed:
             obj.save(update_fields=fields)
+
+
+
+

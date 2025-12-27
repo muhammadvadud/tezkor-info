@@ -5,7 +5,7 @@ from model_bakery import baker
 
 
 class CategoryModel(AbstractBaseModel):
-    name = models.CharField(verbose_name=_("name"), max_length=255)
+    name = models.CharField(verbose_name=_("name"), max_length=1024)
     code = models.CharField(max_length=50, unique=True)
     parent = models.ForeignKey(
         'self',

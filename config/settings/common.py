@@ -109,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NumericPasswordValidator"
     ]
 ]
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 20000
 
 TIME_ZONE = "Asia/Tashkent"
 USE_I18N = True
