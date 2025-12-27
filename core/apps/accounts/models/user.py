@@ -22,6 +22,7 @@ class User(auth_models.AbstractUser):
     director_full_name = models.CharField(max_length=255, null=True, blank=True)
     referral = models.CharField(max_length=255, null=True, blank=True)
     referral_amount = models.PositiveIntegerField(default=0)  # Bu userning balansi
+    referral_share = models.PositiveIntegerField(default=0)
     user_tg_ids = models.ManyToManyField(UserTgIds, blank=True)
     can_create_referral = models.BooleanField(default=False)
     role = models.CharField(

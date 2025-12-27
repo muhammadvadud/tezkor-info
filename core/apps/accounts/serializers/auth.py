@@ -22,6 +22,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise exceptions.ValidationError(_("Phone number already registered."), code="unique")
         return value
 
+    def validate_stir(self, value):
+        user = get_user_model().objects.filter(stir=value, validated_at__isnull=False)
+        if user.exists():
+            raise exceptions.ValidationError(_("Stir number already registered."), code="unique")
+        return value
+
     class Meta:
         model = get_user_model()
         fields = ["company_name", "stir", "director_full_name", "phone", "referral"]

@@ -36,7 +36,9 @@ class CreateReferralSerializer(BaseReferralSerializer):
         fields = [
             "id",
             "code",
+            "referral_share",
             "description",
+            "is_agent",
         ]
         extra_kwargs = {
             "description": {"required": False},

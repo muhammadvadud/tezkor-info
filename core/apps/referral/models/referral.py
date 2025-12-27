@@ -14,6 +14,7 @@ class ReferralModel(AbstractBaseModel):
     referral_share = models.IntegerField(verbose_name=_("referral share %"), default=0)
     description = models.TextField(verbose_name=_("description"), blank=True, null=True)
     is_agent = models.BooleanField(verbose_name=_("is_agent"), default=False)
+    referral_earnings = models.PositiveIntegerField(verbose_name=_("referral earnings"), default=0)
 
     def __str__(self):
         return str(self.pk)
