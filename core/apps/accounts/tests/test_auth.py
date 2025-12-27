@@ -49,6 +49,7 @@ def test_reg_view(api_client):
     data = {
         "phone": "998999999991",
         "password": "password",
+        "stir": "307504348",
         "person_type": PersonTypeChoice.EMPLOYEE,
     }
     with patch.object(SmsService, "send_confirm", return_value=True):
