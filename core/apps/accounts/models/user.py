@@ -32,7 +32,7 @@ class User(auth_models.AbstractUser):
     person_type = models.CharField(
         max_length=255,
         choices=PersonTypeChoice,
-        default=PersonTypeChoice.EMPLOYEE,
+        default=PersonTypeChoice.LEGAL_ENTITY,
     )
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
     company_image = models.ImageField(upload_to="company_images/", null=True, blank=True)

@@ -25,7 +25,7 @@ bcrypt
 pytest-django
 requests
 model_bakery
-
+deep-translator
 
 
 django-modeltranslation~=0.19.11
@@ -43,7 +43,7 @@ django-storages
 boto3
 
 
-payme-pkg==3.0.28
+payme-pkg==3.3.0
 pycountry
 aiogram==3.22.0
 watchfiles

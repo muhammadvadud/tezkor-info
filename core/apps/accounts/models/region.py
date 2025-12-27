@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Country(AbstractBaseModel):
     name = models.CharField(max_length=255, verbose_name=_("Country name"))
+    code = models.CharField(max_length=100, verbose_name=_("Country code"), null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -18,6 +19,7 @@ class Country(AbstractBaseModel):
 class Region(AbstractBaseModel):
     country = models.ForeignKey(Country, verbose_name=_("Country"), on_delete=models.PROTECT, related_name="region")
     name = models.CharField(max_length=255, verbose_name=("Region Name"))
+    code = models.CharField(max_length=100, verbose_name=_("Region code"), null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -31,6 +33,7 @@ class Region(AbstractBaseModel):
 class District(AbstractBaseModel):
     name = models.CharField(max_length=255, verbose_name=("District Name"))
     region = models.ForeignKey(Region, on_delete=models.PROTECT, verbose_name=_("Region"), related_name="districts")
+    code = models.CharField(max_length=100, verbose_name=_("Disrict code"), null=True, blank=True)
 
     def __str__(self):
         return self.name

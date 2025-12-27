@@ -6,9 +6,11 @@ from django.utils.translation import gettext as _
 from django_core import exceptions
 from rest_framework.exceptions import PermissionDenied
 from rest_framework_simplejwt import tokens
-from core.apps.accounts.models.region import District, Region, Country
-from django.db import transaction
 from core.apps.referral.tasks import user_add_for_referral
+from core.services.get_user_all_data import get_user_all_data
+from rest_framework.exceptions import ValidationError
+from core.services.find_category_for_oked import find_category_by_oked
+from core.apps.accounts.choices import PersonTypeChoice
 
 
 class UserService(sms.SmsService):
@@ -21,44 +23,36 @@ class UserService(sms.SmsService):
         }
 
     def create_user(self, data):
-        person_type = data.get("person_type")
+        referral = data.get("referral")
 
-        with transaction.atomic():
-            country = data.get("country")
-            region = data.get("region")
-            district = data.get("district")
-            referral = data.get("referral")
+        try:
+            user_data = get_user_all_data(data['stir'])
+        except ValueError as e:
+            if str(e) == "ERR_USER_NOT_FOUND_404":
+                raise ValidationError("Bunday korxona mavjud emas")
+            else:
+                raise
 
-            country_obj = region_obj = district_obj = None
+        category = find_category_by_oked(user_data["oked"])
 
-            if person_type == "legal_entity":
-                country_obj, _ = Country.objects.get_or_create(name=country)
-                region_obj, _ = Region.objects.get_or_create(name=region, country=country_obj)
-                district_obj, _ = District.objects.get_or_create(name=district, region=region_obj)
-
-            common_defaults = {
-                "first_name": data.get("first_name"),
-                "last_name": data.get("last_name"),
-                "person_type": person_type,
-                "referral": referral,
+        user, created = get_user_model().objects.update_or_create(
+            phone=data["phone"],
+            defaults={
+                "person_type": PersonTypeChoice.LEGAL_ENTITY,
+                "district": user_data["district"],
+                "company_name": user_data["company_name"],
+                "stir": data["stir"],
+                "director_full_name": user_data["director_full_name"],
             }
+        )
 
-            if person_type == "legal_entity":
-                common_defaults.update({
-                    "district": district_obj,
-                    "company_name": data.get("company_name"),
-                    "stir": data.get("stir"),
-                    "director_full_name": data.get("director_full_name"),
-                })
+        if category:
+            user.activate_types.set([category])
+        if referral:
+            user.referral = referral
 
-            user, created = get_user_model().objects.update_or_create(
-                phone=data["phone"],
-                defaults=common_defaults,
-            )
-            if "activate_types" in data:
-                user.activate_types.set(data["activate_types"])
-            user.set_unusable_password()
-            user.save()
+        user.set_unusable_password()
+        user.save()
 
         return user
 

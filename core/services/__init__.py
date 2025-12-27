@@ -7,3 +7,5 @@ from .send_user_notification import *  # noqa
 from .send_otp_bot import *  # noqa
 from .pdf_generate import *  # noqa
 from .cashback import *  # noqa
+from .get_user_all_data import *  # noqa
+from .find_category_for_oked import *  # noqa
