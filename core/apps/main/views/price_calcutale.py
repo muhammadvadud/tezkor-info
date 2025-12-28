@@ -29,7 +29,7 @@ class PriceCalculationAPIView(APIView):
         types = [l.strip() for l in types.split(",") if l.strip()]
 
         try:
-            country = Country.objects.get(name__iexact=country_name)
+            country = Country.objects.get(code=country_name)
         except Country.DoesNotExist:
             return Response({"error": "Country not found"}, status=400)
 
