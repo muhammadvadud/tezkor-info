@@ -10,4 +10,4 @@ from .spectacular import *  # noqa
 from .ckeditor import *  # noqa
 from .storage import *  # noqa
 from .channels import *  # noqa
-from .payme import *  # noqa
+# from .payme import *  # noqa
