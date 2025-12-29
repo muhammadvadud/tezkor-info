@@ -9,3 +9,4 @@ from .pdf_generate import *  # noqa
 from .cashback import *  # noqa
 from .get_user_all_data import *  # noqa
 from .find_category_for_oked import *  # noqa
+from .cashback_pay import *  # noqa

@@ -6,7 +6,7 @@ from core.apps.main.models import AdModel
 from django.shortcuts import get_object_or_404
 from core.services.pay_link import get_payme_url
 from core.apps.main.choices import PaymentsStatusChoice
-from core.services.referral_pay import referral_payment_service
+from core.services.cashback_pay import cashback_payment_service
 
 
 class PaymentsLinkSerializer(serializers.Serializer):
@@ -55,7 +55,7 @@ class PaymentsLinkSerializer(serializers.Serializer):
             user = self.context.get("user")
             if user.person_type == PersonTypeChoice.EMPLOYEE:
                 user = user.parent
-            pay_referral = referral_payment_service(user, ad)
+            pay_referral = cashback_payment_service(user, ad)
 
             return pay_referral
         else:
