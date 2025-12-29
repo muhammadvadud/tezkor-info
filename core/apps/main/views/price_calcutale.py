@@ -37,7 +37,7 @@ class PriceCalculationAPIView(APIView):
             regions = Region.objects.filter(country=country)
         else:
             try:
-                region = Region.objects.get(name__iexact=region_name, country=country)
+                region = Region.objects.get(code=region_name, country=country)
                 regions = [region]
             except Region.DoesNotExist:
                 return Response({"error": "Region not found"}, status=400)
@@ -46,7 +46,7 @@ class PriceCalculationAPIView(APIView):
             districts = District.objects.filter(region__in=regions)
         else:
             try:
-                district = District.objects.get(name__iexact=district_name, region__in=regions)
+                district = District.objects.get(code=district_name, region__in=regions)
                 districts = [district]
             except District.DoesNotExist:
                 return Response({"error": "District not found"}, status=400)
