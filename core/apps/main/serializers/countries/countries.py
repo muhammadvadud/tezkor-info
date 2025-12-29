@@ -9,6 +9,7 @@ class DistrictSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
+            "code",
         ]
 
 
@@ -20,7 +21,9 @@ class RegionSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            "code",
             "districts",
+
         ]
 
 
@@ -33,6 +36,7 @@ class BaseCountriesSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'region',
+            'code',
         ]
 
 
