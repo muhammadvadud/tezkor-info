@@ -43,7 +43,7 @@ django-storages
 boto3
 
 
-payme-pkg==3.3.0
+payme-pkg==3.3.2
 pycountry
 aiogram==3.22.0
 watchfiles
