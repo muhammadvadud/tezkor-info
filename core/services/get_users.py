@@ -15,7 +15,7 @@ def get_users_for_ad(ad):
         q = Q(person_type=PersonTypeChoice.LEGAL_ENTITY)
 
         try:
-            country = Country.objects.get(name__iexact=s.country)
+            country = Country.objects.get(code=s.country)
         except Country.DoesNotExist:
             print("Country not found")
             continue
@@ -24,7 +24,7 @@ def get_users_for_ad(ad):
             regions = Region.objects.filter(country=country)
         else:
             try:
-                regions = [Region.objects.get(name__iexact=s.region, country=country)]
+                regions = [Region.objects.get(code=s.region, country=country)]
             except Region.DoesNotExist:
                 print("Region not found")
                 continue
@@ -33,7 +33,7 @@ def get_users_for_ad(ad):
             districts = District.objects.filter(region__in=regions)
         else:
             try:
-                districts = [District.objects.get(name__iexact=s.district, region__in=regions)]
+                districts = [District.objects.get(code=s.district, region__in=regions)]
             except District.DoesNotExist:
                 print("District not found")
                 continue

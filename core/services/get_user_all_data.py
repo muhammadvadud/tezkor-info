@@ -130,13 +130,17 @@ def get_user_all_data(stir: int, country_code=1):
         district = District.objects.get(code=str(user_data['districtId']))
     except District.DoesNotExist:
         district = get_region_or_district(user_data['districtId'], "district")
+    company_name = user_data.get('name', '')
+
+    if isinstance(company_name, str) and company_name.startswith('"'):
+        company_name = company_name[1:]
 
     data = {
         "country": country,
         "region": region,
         "district": district,
         "director_full_name": user_data['director'],
-        "company_name": user_data['name'],
+        "company_name": company_name,
         "oked": user_data['oked'],
     }
 
